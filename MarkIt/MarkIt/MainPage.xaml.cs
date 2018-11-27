@@ -1,9 +1,5 @@
 ﻿using MarkIt.App_Code;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MarkIt
@@ -25,8 +21,7 @@ namespace MarkIt
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as OpcoesMenu;
-            if (item != null)
+            if (e.SelectedItem is OpcoesMenu item)
             {
                 Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
                 menuPage.ListView.SelectedItem = null;

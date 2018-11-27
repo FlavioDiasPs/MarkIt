@@ -15,11 +15,43 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Styles\Dictionaries\ButtonDic.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="View\Menu\HomeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Menu\MenuView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="ViewModel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Styles\Dictionaries\EntryDic.xaml.cs">
+      <DependentUpon>EntryDic.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Styles\Dictionaries\LabelDic.xaml.cs">
+      <DependentUpon>LabelDic.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="View\Menu\HomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="View\Menu\MenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 </Project>
