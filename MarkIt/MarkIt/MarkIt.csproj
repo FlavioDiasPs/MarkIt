@@ -10,17 +10,52 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
     <PackageReference Include="Xamarin.Essentials" Version="0.11.0-preview" />
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Styles\Dictionaries\ButtonDic.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="View\Menu\HomeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="View\Menu\MenuView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="View\ProductView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Styles\Dictionaries\EntryDic.xaml.cs">
+      <DependentUpon>EntryDic.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Styles\Dictionaries\LabelDic.xaml.cs">
+      <DependentUpon>LabelDic.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="View\Menu\HomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="View\Menu\MenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <EmbeddedResource Update="View\ProdutoView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

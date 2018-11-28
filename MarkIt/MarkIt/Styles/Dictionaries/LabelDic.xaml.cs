@@ -2,12 +2,12 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MarkIt.View.Menu
+namespace MarkIt.Styles.Dictionaries
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HomeView : ContentPage
+	public partial class LabelDic : ResourceDictionary
 	{
-		public HomeView ()
+		public LabelDic()
 		{
 			InitializeComponent ();
 		}
