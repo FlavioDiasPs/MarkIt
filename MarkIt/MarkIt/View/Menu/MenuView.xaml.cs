@@ -19,13 +19,15 @@ namespace MarkIt.View.Menu
         {
             InitializeComponent();
 
-            ObservableCollection<OpcoesMenu> menuItems = new ObservableCollection<OpcoesMenu>();
-            menuItems.Add(new OpcoesMenu
+            var menuItems = new ObservableCollection<OpcoesMenu>
             {
-                Descricao = "Home",
-                Icone = "Home.png",
-                TargetType = typeof(HomeView)
-            });
+                new OpcoesMenu
+                {
+                    Descricao = "Home",
+                    Icone = "Home.png",
+                    TargetType = typeof(HomeView)
+                }
+            };
             lstMenu.ItemsSource = menuItems;
         }
     }

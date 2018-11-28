@@ -2,7 +2,7 @@
 using System;
 using Xamarin.Forms;
 
-namespace MarkIt
+namespace MarkIt.View
 {
     public partial class MainPage : MasterDetailPage
     {
@@ -11,6 +11,8 @@ namespace MarkIt
             InitializeComponent();
 
             menuPage.ListView.ItemSelected += ListView_ItemSelected;
+
+            Detail = new NavigationPage((Page)Activator.CreateInstance(typeof(ProductView)));
         }
 
         protected override void OnAppearing()

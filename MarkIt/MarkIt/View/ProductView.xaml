@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MarkIt.View.ProductView"
+             NavigationPage.HasBackButton="True"
+             Title="Products" x:Name="pageProducts">
+    
+    <ContentPage.Content>
+        <Grid Padding="5" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout x:Name="layPesquisa" Grid.Row="0" Padding="5">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                    <Label Text="Welcome, mané" FontSize="15"/>
+                    <Label Text="{Binding Nome}" FontSize="15" FontAttributes="Bold" />
+                </StackLayout>
+                <SearchBar Placeholder="Search by name" Text="{Binding PesquisaPorNome}" />
+            </StackLayout>
+
+            <StackLayout x:Name="layLista" Grid.Row="1" Padding="7">
+                <ListView x:Name="lstAlunos" ItemsSource="{Binding Alunos}"                           
+                          SelectedItem="{Binding Selecionado, Mode=TwoWay}" RowHeight="55">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Remover" IsDestructive="True"
+                                              Command="{Binding BindingContext.OnDeleteAlunoCMD, Source={x:Reference pageNotas}}" 
+                                              CommandParameter="{Binding .}" />
+                                    <MenuItem Text="Editar" IsDestructive="False"
+                                              Command="{Binding BindingContext.OnEditarAlunoCMD, Source={x:Reference pageNotas}}"
+                                              CommandParameter="{Binding .}" />
+                                </ViewCell.ContextActions>
+                                <StackLayout Padding="5,0,5,0">
+                                    <Label Text="{Binding Nome}" Font="15" />
+                                    <Grid Padding="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" Text="{Binding RM}" Font="12" HorizontalOptions="Start" />
+                                        <Label Grid.Column="1" Text="{Binding IsAprovado}" Font="12" HorizontalOptions="End" />
+                                    </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
