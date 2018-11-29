@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarkIt.ViewModel;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,17 +8,16 @@ namespace MarkIt
 {
     public partial class App : Application
     {
-        //#region ViewModels
-        //public static AlunoViewModel AlunoVM { get; set; }
-        //public static UsuarioViewModel UsuarioVM { get; set; }
-        //#endregion
+        public static ProductViewModel ProductVM { get; set; }
 
         public App()
         {
             InitializeComponent();
-            //InitializeApplication();
+            InitializeApplication();
 
-            MainPage = new NavigationPage(new View.MainPage()); // { BindingContext = App.UsuarioVM }
+            //MainPage = new NavigationPage(new View.MainPage()); // { BindingContext = App.UsuarioVM }
+
+            MainPage = new NavigationPage(new View.Product.ProductView { BindingContext = App.ProductVM });
         }
 
         //private void InitializeApplication()
@@ -25,6 +25,10 @@ namespace MarkIt
         //    if (AlunoVM == null) AlunoVM = new AlunoViewModel();
         //    if (UsuarioVM == null) UsuarioVM = new UsuarioViewModel();
         //}
+        private void InitializeApplication()
+        {
+            if (ProductVM == null) ProductVM = new ProductViewModel();
+        }
 
         protected override void OnStart()
         {
