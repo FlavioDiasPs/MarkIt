@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using ZXing.Net.Mobile.Forms;
 
 namespace MarkIt.View.Product
 {
@@ -16,6 +18,20 @@ namespace MarkIt.View.Product
         {
             base.OnAppearing();
             Task.Run(() => App.ProductVM.LoadProducts());
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            var scan = new ZXingScannerPage();
+            await Navigation.PushAsync(scan);
+            scan.OnScanResult += (result) =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Navigation.PopAsync();
+                    SearchByName.Text = result.Text;
+                });
+            };
         }
     }
 }
