@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace MarkIt.Model
 {
-
     public class Product
     {
         public int Id { get; set; }
@@ -15,16 +14,15 @@ namespace MarkIt.Model
         public string Titulo { get; set; }
         //public string Name { get; set; }
         //public List<Price> Prices { get; set; }
-    }    public static class ProductRepository
+    }    public static class ProductRepository
     {
         private static List<Product> products;
         public static async Task<List<Product>> GetProductsAsync()
         {
-            if (products != null)
-                return products;
+            if (products != null) return products;
 
             var httpRequest = new HttpClient();
-            var stream = httpRequest.GetStreamAsync("http://apiaplicativofiap.azurewebsites.net/api/professors").Result;
+            var stream = await httpRequest.GetStreamAsync("http://apiaplicativofiap.azurewebsites.net/api/professors");
 
             var productSerializer = new
            DataContractJsonSerializer(typeof(List<Product>));
@@ -32,21 +30,30 @@ namespace MarkIt.Model
            (List<Product>)productSerializer.ReadObject(stream);
             return products;
         }
-        public static async Task<bool> PostProductAsync(Product prodAdd)
+
+        public static async Task<bool> PostProductAsync(Product product)
         {
-            if (prodAdd == null) return false;
+            if (product == null) return false;
+
             var httpRequest = new HttpClient();
             httpRequest.BaseAddress = new Uri("http://apiaplicativofiap.azurewebsites.net/ ");
 
             httpRequest.DefaultRequestHeaders.Accept.Clear();
             httpRequest.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            string profJson = Newtonsoft.Json.JsonConvert.SerializeObject(prodAdd);
-            var response = httpRequest.PostAsync("api/professors", new StringContent(profJson, System.Text.Encoding.UTF8, "application/json")).Result;
+            string profJson = Newtonsoft.Json.JsonConvert.SerializeObject(product);
+            var content = new StringContent(profJson, System.Text.Encoding.UTF8, "application/json");
+            var response = await httpRequest.PostAsync("api/professors", content);
 
             if (response.IsSuccessStatusCode) return true;
             return false;
         }
+
+
+
+
+
+
        // public static async Task<bool>
        //DeleteProfessorSqlAzureAsync(string profId)
        // {

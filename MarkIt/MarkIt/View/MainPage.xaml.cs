@@ -11,8 +11,7 @@ namespace MarkIt.View
             InitializeComponent();
 
             menuPage.ListView.ItemSelected += ListView_ItemSelected;
-
-            Detail = new NavigationPage((Page)Activator.CreateInstance(typeof(ProductView)));
+            Detail = new NavigationPage(new Product.ProductView { BindingContext = App.ProductVM });
         }
 
         protected override void OnAppearing()

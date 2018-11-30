@@ -6,6 +6,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,132 +17,99 @@ namespace MarkIt.ViewModel
     {
         public Product ProductModel { get; set; }
 
-        private Product selecionado;
-        public Product Selecionado
+        private Product selectedProduct;
+        public Product SelectedProduct
         {
-            get { return selecionado; }
+            get { return selectedProduct; }
             set
             {
-                selecionado = value as Product;
+                selectedProduct = value as Product;
                 EventPropertyChanged();
             }
         }
 
-        private string pesquisaPorNome;
-        public string PesquisaPorNome
+        private string searchByName;
+        public string SearchByName
         {
-            get { return pesquisaPorNome; }
+            get { return searchByName; }
             set
             {
-                if (value == pesquisaPorNome) return;
+                if (value == searchByName) return;
 
-                pesquisaPorNome = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PesquisaPorNome)));
-                AplicarFiltro();
+                searchByName = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchByName)));
+                ApplyFilter();
             }
         }
 
-        public List<Product> CopiaListaProducts;
+        public List<Product> stagedProductList;
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
 
         // UI Events
-        public OnAdicionarProductCMD OnAdicionarProductCMD { get; }
-        public OnEditarProductCMD OnEditarProductCMD { get; }
-        //public OnDeleteProductCMD OnDeleteProductCMD { get; }
-        public ICommand OnSairCMD { get; private set; }
-        public ICommand OnNovoCMD { get; private set; }
-
-
+        public OnAddProductCMD OnAddProductCMD { get; }
+        public OnEditProductCMD OnEditProductCMD { get; }        
+        public ICommand OnNewProductCMD { get; private set; }
+        public ICommand OnQuitCMD { get; private set; }
+        
 
         public ProductViewModel()
-        {
-            //ProductRepository repository = new ProductRepository();
+        {            
+            OnAddProductCMD = new OnAddProductCMD(this);
+            OnEditProductCMD = new OnEditProductCMD(this);
+            OnQuitCMD = new Command(OnQuit);
+            OnNewProductCMD = new Command(OnNewProduct);
 
-            OnAdicionarProductCMD = new OnAdicionarProductCMD(this);
-            OnEditarProductCMD = new OnEditarProductCMD(this);
-            //OnDeleteProductCMD = new OnDeleteProductCMD(this);
-            OnSairCMD = new Command(OnSair);
-            OnNovoCMD = new Command(OnNovo);
-
-            CopiaListaProducts = new List<Product>();
-            Carregar();
+            stagedProductList = new List<Product>();
+            Task.Run(() => LoadProducts());
         }
 
 
-        public void Carregar()
+        public async Task LoadProducts()
         {
-            CopiaListaProducts = ProductRepository.GetProductsAsync().Result;
-            AplicarFiltro();
+            stagedProductList = await ProductRepository.GetProductsAsync();
+            ApplyFilter();
         }
 
-        private void AplicarFiltro()
+        private void ApplyFilter()
         {
-            if (pesquisaPorNome == null)
-                pesquisaPorNome = "";
+            if (searchByName == null) searchByName = "";
 
-            var resultado = CopiaListaProducts.Where(n => n.Nome.ToLowerInvariant()
-                                .Contains(PesquisaPorNome.ToLowerInvariant().Trim())).ToList();
+            Products.Clear();
 
-            var removerDaLista = Products.Except(resultado).ToList();
-            foreach (var item in removerDaLista)
+            var resultado = stagedProductList.Where(n => n.Nome.ToLowerInvariant()
+                                .Contains(SearchByName.ToLowerInvariant().Trim())).ToList();
+
+            resultado.ForEach(p => Products.Add(p));
+        }
+
+        public async Task AddAsync(Product product)
+        {
+            await new TaskFactory().StartNew(() =>
             {
-                Products.Remove(item);
-            }
-
-            for (int index = 0; index < resultado.Count; index++)
-            {
-                var item = resultado[index];
-                if (index + 1 > Products.Count || !Products[index].Equals(item))
-                    Products.Insert(index, item);
-            }
+                if ((product == null) || (string.IsNullOrWhiteSpace(product.Nome)))
+                    App.Current.MainPage.DisplayAlert("Atenção", "O campo nome é obrigatório", "OK");
+                else if (ProductRepository.PostProductAsync(product).GetAwaiter().GetResult())
+                    App.Current.MainPage.Navigation.PopAsync();
+                else
+                    App.Current.MainPage.DisplayAlert("Falhou", "Desculpe, ocorreu um erro inesperado =(", "OK");
+            });                    
         }
 
-
-
-        public void Adicionar(Product paramProduct)
-        {
-            if ((paramProduct == null) || (string.IsNullOrWhiteSpace(paramProduct.Nome)))
-                App.Current.MainPage.DisplayAlert("Atenção", "O campo nome é obrigatório", "OK");
-            else if (ProductRepository.PostProductAsync(paramProduct).Result)
-                App.Current.MainPage.Navigation.PopAsync();
-            else
-                App.Current.MainPage.DisplayAlert("Falhou", "Desculpe, ocorreu um erro inesperado =(", "OK");
-        }
-
-        public async void Editar()
+        public async void Edit()
         {
             await App.Current.MainPage.Navigation.PushAsync(
                 new View.Product.NewProductView() { BindingContext = App.ProductVM });
-        }
+        }        
 
-        //public async void Remover()
-        //{
-        //    if (await App.Current.MainPage.DisplayAlert("Atenção?",
-        //        string.Format("Tem certeza que deseja remover o {0}?", Selecionado.Nome), "Sim", "Não"))
-        //    {
-        //        var teste = Selecionado.Id.ToString();
-
-        //        if (ProductRepository.DeleteProductSqlAzureAsync(teste).Result)
-        //        {
-        //            CopiaListaProductes.Remove(Selecionado);
-        //            Carregar();
-        //        }
-        //        else
-        //            await App.Current.MainPage.DisplayAlert(
-        //                    "Falhou", "Desculpe, ocorreu um erro inesperado =(", "OK");
-        //    }
-        //}
-
-        private async void OnSair()
+        private async void OnQuit()
         {
             await App.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void OnNovo()
+        private void OnNewProduct()
         {
-            App.ProductVM.Selecionado = new Model.Product();
-            App.Current.MainPage.Navigation.PushAsync(
-                new View.Product.NewProductView() { BindingContext = App.ProductVM });
+            App.ProductVM.SelectedProduct = new Product();
+            App.Current.MainPage.Navigation.PushAsync(new View.Product.NewProductView() { BindingContext = App.ProductVM });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -154,10 +123,10 @@ namespace MarkIt.ViewModel
     }
 
 
-    public class OnAdicionarProductCMD : ICommand
+    public class OnAddProductCMD : ICommand
     {
         private ProductViewModel ProductVM;
-        public OnAdicionarProductCMD(ProductViewModel paramVM)
+        public OnAddProductCMD(ProductViewModel paramVM)
         {
             ProductVM = paramVM;
         }
@@ -166,14 +135,14 @@ namespace MarkIt.ViewModel
         public bool CanExecute(object parameter) => true;
         public void Execute(object parameter)
         {
-            ProductVM.Adicionar(parameter as Product);
+            ProductVM.AddAsync(parameter as Product).GetAwaiter().GetResult();
         }
     }
 
-    public class OnEditarProductCMD : ICommand
+    public class OnEditProductCMD : ICommand
     {
         private ProductViewModel ProductVM;
-        public OnEditarProductCMD(ProductViewModel paramVM)
+        public OnEditProductCMD(ProductViewModel paramVM)
         {
             ProductVM = paramVM;
         }
@@ -182,25 +151,8 @@ namespace MarkIt.ViewModel
         public bool CanExecute(object parameter) => (parameter != null);
         public void Execute(object parameter)
         {
-            App.ProductVM.Selecionado = parameter as Product;
-            ProductVM.Editar();
+            App.ProductVM.SelectedProduct = parameter as Product;
+            ProductVM.Edit();
         }
-    }
-
-    //public class OnDeleteProductCMD : ICommand
-    //{
-    //    private ProductViewModel ProductVM;
-    //    public OnDeleteProductCMD(ProductViewModel paramVM)
-    //    {
-    //        ProductVM = paramVM;
-    //    }
-    //    public event EventHandler CanExecuteChanged;
-    //    public void DeleteCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    //    public bool CanExecute(object parameter) => (parameter != null);
-    //    public void Execute(object parameter)
-    //    {
-    //        App.ProductVM.Selecionado = parameter as Product;
-    //        ProductVM.Remover();
-    //    }
-    //}
+    }   
 }

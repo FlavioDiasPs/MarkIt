@@ -25,7 +25,19 @@ namespace MarkIt.View.Menu
                 {
                     Descricao = "Home",
                     Icone = "Home.png",
-                    TargetType = typeof(HomeView)
+                    TargetType = typeof(MainPage)
+                },
+                new OpcoesMenu
+                {
+                    Descricao = "About",
+                    Icone = "Home.png",
+                    TargetType = typeof(AboutView)
+                },
+                new OpcoesMenu
+                {
+                    Descricao = "Contact",
+                    Icone = "Home.png",
+                    TargetType = typeof(ContactView)
                 }
             };
             lstMenu.ItemsSource = menuItems;

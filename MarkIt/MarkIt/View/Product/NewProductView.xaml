@@ -6,14 +6,14 @@
 
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Salvar" x:Name="btnSalvar" Command="{Binding OnAdicionarProductCMD}" 
+        <ToolbarItem Text="Add" x:Name="btnAdd" Command="{Binding OnAddProductCMD}" 
                      CommandParameter="{Binding BindingContext, Source={x:Reference Name=rootProduct}}" Order="Primary" Priority="1" />
-        <ToolbarItem Text="Cancelar" x:Name="btnCancelar" Command="{Binding OnSairCMD}" Order="Primary" Priority="2" />
+        <ToolbarItem Text="Quit" x:Name="btnQuit" Command="{Binding OnQuitCMD}" Order="Primary" Priority="2" />
     </ContentPage.ToolbarItems>
 
 
     <ContentPage.Content>
-        <StackLayout x:Name="rootProduct" Padding="7" BindingContext="{Binding Selecionado}">
+        <StackLayout x:Name="rootProduct" Padding="7" BindingContext="{Binding SelectedProduct}">
             <Entry x:Name="txtNome" Placeholder="Nome" Text="{Binding Nome}" />
             <Entry x:Name="txtTitulo" Placeholder="Titulo" Text="{Binding Titulo}" />
         </StackLayout>

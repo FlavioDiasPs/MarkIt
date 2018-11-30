@@ -14,10 +14,8 @@ namespace MarkIt
         {
             InitializeComponent();
             InitializeApplication();
-
-            //MainPage = new NavigationPage(new View.MainPage()); // { BindingContext = App.UsuarioVM }
-
-            MainPage = new NavigationPage(new View.Product.ProductView { BindingContext = App.ProductVM });
+            
+            MainPage = new NavigationPage(new View.MainPage());          
         }
 
         //private void InitializeApplication()

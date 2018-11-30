@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace MarkIt.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ProductView : ContentPage
+	public partial class AboutView : ContentPage
 	{
-		public ProductView ()
+		public AboutView ()
 		{
 			InitializeComponent ();
 		}
