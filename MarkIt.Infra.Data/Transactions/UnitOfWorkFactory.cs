@@ -1,4 +1,5 @@
 ﻿using MarkIt.Infra.Data.Transactions.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,16 +9,22 @@ namespace MarkIt.Infra.Data.Transactions
 {
     public class UnitOfWorkFactory<TConnection> : IUnitOfWorkFactory where TConnection : IDbConnection, new()
     {
-        private readonly string connectionString;
+        private readonly IConfiguration _configuration;
 
-        public UnitOfWorkFactory(string connectionString)
+        public UnitOfWorkFactory(IConfiguration configuration)
         {
-            if (string.IsNullOrWhiteSpace(connectionString))
-            {
-                throw new ArgumentNullException("connectionString cannot be null");
-            }
+            _configuration = configuration;
+        }
 
-            this.connectionString = connectionString;
+        public IDbConnection Connection
+        {
+            get
+            {
+                return new TConnection
+                {
+                    ConnectionString = _configuration.GetConnectionString("MyConnectionString")
+                };
+            }
         }
 
         public UnitOfWork Create()
@@ -26,15 +33,12 @@ namespace MarkIt.Infra.Data.Transactions
         }
 
         private IDbConnection CreateOpenConnection()
-        {
-            var conn = new TConnection();
-            conn.ConnectionString = connectionString;
-
+        {            
             try
             {
-                if (conn.State != ConnectionState.Open)
+                if (Connection.State != ConnectionState.Open)
                 {
-                    conn.Open();
+                    Connection.Open();
                 }
             }
             catch (Exception exception)
@@ -42,7 +46,7 @@ namespace MarkIt.Infra.Data.Transactions
                 throw new Exception("An error occured while connecting to the database. See innerException for details.", exception);
             }
 
-            return conn;
+            return Connection;
         }
     }
 }
