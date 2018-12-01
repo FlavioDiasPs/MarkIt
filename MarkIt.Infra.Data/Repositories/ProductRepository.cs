@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using MarkIt.Core.Entities;
 using MarkIt.Core.Interfaces.Repositories;
+using MarkIt.Infra.Data.DapperConfig;
+using MarkIt.Infra.Data.Repositories.Base;
 using MarkIt.Infra.Data.Transactions;
 using System;
 using System.Collections.Generic;
@@ -11,53 +13,29 @@ using System.Transactions;
 
 namespace MarkIt.Infra.Data.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
-        protected readonly IDbConnection connection;
-        protected readonly IDbTransaction transaction;
+        protected readonly IDbContext<Product> _context;
 
-        public ProductRepository(UnitOfWork unitOfWork)
+        public ProductRepository(IDbContext<Product> context) : base(context)
         {
-            connection = unitOfWork.Transaction.Connection;
-            transaction = unitOfWork.Transaction;
-        }    
-
-        public void Add(Product obj)
-        {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public IQueryable<Product> FromSql(object obj, string sql, SqlParameter[] parameters)
+        public void AddProduct(Product obj)
         {
-            throw new NotImplementedException();
+            Add(obj);
         }
 
-        public IEnumerable<Product> GetAll()
+        public IEnumerable<Product> QuerySomething()
         {
-            return connection.QuerySingleOrDefault<IEnumerable<Product>>("select * from dbo.Product", transaction: transaction);
-        }
-
-        public Product GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+            var transaction = _context.UnitOfWork.Transaction;
+            var conn = transaction.Connection;
+            
+            return conn.QuerySingleOrDefault<IEnumerable<Product>>("select * from dbo.Product", transaction: transaction);
+        }         
 
         public IQueryable<Product> GetProductsFromMarket()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Product> Queryable()
-        {
-            throw new NotImplementedException();
-        }        
-
-        public void Remove(Product obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Product obj)
         {
             throw new NotImplementedException();
         }

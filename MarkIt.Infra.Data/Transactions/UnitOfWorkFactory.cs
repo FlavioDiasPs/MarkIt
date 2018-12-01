@@ -15,7 +15,6 @@ namespace MarkIt.Infra.Data.Transactions
         {
             _configuration = configuration;
         }
-
         public IDbConnection Connection
         {
             get
@@ -26,12 +25,10 @@ namespace MarkIt.Infra.Data.Transactions
                 };
             }
         }
-
         public UnitOfWork Create()
         {
             return new UnitOfWork(CreateOpenConnection());
         }
-
         private IDbConnection CreateOpenConnection()
         {            
             try

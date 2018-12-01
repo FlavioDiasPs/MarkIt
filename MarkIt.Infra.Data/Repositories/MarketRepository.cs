@@ -1,7 +1,10 @@
 ﻿using Dapper;
 using MarkIt.Core.Entities;
 using MarkIt.Core.Interfaces.Repositories;
+using MarkIt.Infra.Data.DapperConfig;
+using MarkIt.Infra.Data.Repositories.Base;
 using MarkIt.Infra.Data.Transactions;
+using MarkIt.Infra.Data.Transactions.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,53 +14,21 @@ using System.Transactions;
 
 namespace MarkIt.Infra.Data.Repositories
 {
-    public class MarketRepository : IMarketRepository
-    {
-        protected readonly IDbConnection connection;
-        protected readonly IDbTransaction transaction;
+    public class MarketRepository : RepositoryBase<Market>, IMarketRepository
+    {        
+        protected readonly IDbContext<Market> _context;
 
-        public MarketRepository(UnitOfWork unitOfWork)
+        public MarketRepository(IDbContext<Market> context) : base(context)
         {
-            connection = unitOfWork.Transaction.Connection;
-            transaction = unitOfWork.Transaction;
+            _context = context;           
         }
 
-        public void Add(Market obj)
+        public void AddMarket(Market obj)
         {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Market> FromSql(object obj, string sql, SqlParameter[] parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Market> GetAll()
-        {
-            return connection.QuerySingleOrDefault<IEnumerable<Market>>("select * from dbo.Market", transaction: transaction);
-        }
-
-        public Market GetById(int id)
-        {
-            throw new NotImplementedException();
+            Add(obj);
         }
 
         public IQueryable<Market> GetClosestMarkets(string latitude, string longitude)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Market> Queryable()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(Market obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Market obj)
         {
             throw new NotImplementedException();
         }

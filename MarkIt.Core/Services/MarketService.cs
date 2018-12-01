@@ -14,7 +14,6 @@ namespace MarkIt.Core.Services
             _repository = repository;
         }
 
-
         public void Add(Market obj)
         {
             _repository.Add(obj);

@@ -10,9 +10,7 @@ namespace MarkIt.Infra.Data.Transactions
         {
             Transaction = connection.BeginTransaction();
         }
-
         public IDbTransaction Transaction { get; set; }
-
         public void Commit()
         {
             try
@@ -32,7 +30,6 @@ namespace MarkIt.Infra.Data.Transactions
                 Transaction = null;
             }
         }
-
         public void Rollback()
         {
             try

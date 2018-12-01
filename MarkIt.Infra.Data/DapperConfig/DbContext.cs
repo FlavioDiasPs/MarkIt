@@ -1,5 +1,7 @@
 ﻿using MarkIt.Core.Interfaces.Repositories;
+using MarkIt.Core.Interfaces.Repositories.Base;
 using MarkIt.Infra.Data.Repositories;
+using MarkIt.Infra.Data.Repositories.Base;
 using MarkIt.Infra.Data.Transactions;
 using MarkIt.Infra.Data.Transactions.Interfaces;
 using System;
@@ -8,23 +10,19 @@ using System.Text;
 
 namespace MarkIt.Infra.Data.DapperConfig
 {
-    public class DbContext : IDbContext
+    public class DbContext<TEntity> : IDbContext<TEntity> where TEntity : class
     {
-        private IUnitOfWorkFactory unitOfWorkFactory;
+        private IUnitOfWorkFactory UnitOfWorkFactory;
         
         public DbContext(IUnitOfWorkFactory unitOfWorkFactory)
         {
-            this.unitOfWorkFactory = unitOfWorkFactory;
-        }
-
-        private IProductRepository product;
-        public IProductRepository Product => product ?? (product = new ProductRepository(UnitOfWork));
-
-        private IMarketRepository market;
-        public IMarketRepository Market => market ?? (market = new MarketRepository(UnitOfWork));
+            this.UnitOfWorkFactory = unitOfWorkFactory;
+        }               
 
         private UnitOfWork unitOfWork;
-        protected UnitOfWork UnitOfWork => unitOfWork ?? (unitOfWork = unitOfWorkFactory.Create());        
+        public UnitOfWork UnitOfWork => unitOfWork ?? (unitOfWork = UnitOfWorkFactory.Create());
+
+        public IRepositoryBase<TEntity> Repository { get { return new RepositoryBase<TEntity>(this); } }
 
         public void Commit()
         {
@@ -37,7 +35,6 @@ namespace MarkIt.Infra.Data.DapperConfig
                 Reset();
             }
         }
-
         public void Rollback()
         {
             try
@@ -49,11 +46,9 @@ namespace MarkIt.Infra.Data.DapperConfig
                 Reset();
             }
         }
-
         private void Reset()
         {
             unitOfWork = null;
-            product = null;
-        }
+        }            
     }
 }
