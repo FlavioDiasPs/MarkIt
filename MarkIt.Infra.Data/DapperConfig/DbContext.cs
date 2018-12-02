@@ -1,5 +1,4 @@
-﻿using MarkIt.Core.Interfaces.Repositories;
-using MarkIt.Infra.Data.Repositories;
+﻿using MarkIt.Infra.Data.Repositories;
 using MarkIt.Infra.Data.Transactions;
 using MarkIt.Infra.Data.Transactions.Interfaces;
 

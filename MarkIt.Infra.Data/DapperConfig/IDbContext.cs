@@ -1,6 +1,4 @@
-﻿
-using MarkIt.Core.Interfaces.Repositories;
-using MarkIt.Infra.Data.Repositories;
+﻿using MarkIt.Infra.Data.Repositories;
 
 namespace MarkIt.Infra.Data.Transactions
 {
