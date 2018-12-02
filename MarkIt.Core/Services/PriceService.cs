@@ -53,9 +53,9 @@ namespace MarkIt.Core.Services
         }
 
 
-        public IEnumerable<Price> GetPricesByProductId(int productId)
+        public IEnumerable<Price> GetPricesByProductBarCode(string productBarCode)
         {
-            return _context.Price.GetPricesByProductId(productId);
+            return _context.Price.GetPricesByProductBarCode(productBarCode);
         }
     }
 }

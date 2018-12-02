@@ -19,15 +19,14 @@ namespace MarkIt.Infra.Data.Repositories
         {
             return _connection.Insert<Price>(price);
         }
-
-        public IEnumerable<Price> GetPricesByProductId(int productId)
+        
+        public IEnumerable<Price> GetPricesByProductBarCode(string productBarCode)
         {
-            string procedure = "SelectProductById";
-            //return _connection.Query<Price>(procedure, new { productId }, _transaction, commandType: CommandType.StoredProcedure);
+            string procedure = "SelectProductByBarCode";            
 
             var result = _connection.Query<Price, int, int, Price>(
                 sql:procedure, 
-                param:new { productId }, 
+                param:new { productBarCode }, 
                 transaction:_transaction, 
                 commandType: CommandType.StoredProcedure, 
                 map:(price, product, market) => {

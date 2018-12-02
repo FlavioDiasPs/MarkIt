@@ -6,6 +6,6 @@ namespace MarkIt.Core.Interfaces.Services
 {
     public interface IPriceService : IServiceBase<Price>
     {
-        IEnumerable<Price> GetPricesByProductId(int productId);
+        IEnumerable<Price> GetPricesByProductBarCode(string productBarCode);
     }
 }
