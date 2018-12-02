@@ -24,13 +24,23 @@ namespace MarkIt.Api.Controllers
             _priceService = priceService;
             _unitOfWorkFactory = unitOfWorkFactory;                        
         }
-        
+
         [HttpGet("{productBarCode}")]
-        public IActionResult GetPriceByProductId(string productBarCode)
+        public IActionResult GetPriceByProductBarCode(string productBarCode)
         {
             var result = _priceService.GetPricesByProductBarCode(productBarCode);
 
             if (result is null) return NotFound(productBarCode);
+
+            return Ok(result);
+        }
+
+        [HttpGet("name/{name}")]
+        public IActionResult GetProductByName(string name)
+        {
+            var result = _productService.GetByName(name);
+
+            if (result is null) return NotFound(name);
 
             return Ok(result);
         }

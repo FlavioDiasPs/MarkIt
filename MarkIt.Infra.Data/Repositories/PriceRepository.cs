@@ -36,11 +36,6 @@ namespace MarkIt.Infra.Data.Repositories
                 }, splitOn: "Id, ProductId, MarketId");
 
             return result;
-        }
-
-        public IEnumerable<Price> QuerySomething()
-        {
-            return _connection.QuerySingleOrDefault<IEnumerable<Price>>("select * from dbo.Product", transaction: _transaction);
-        }
+        }        
     }
 }

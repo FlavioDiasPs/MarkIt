@@ -29,6 +29,13 @@ namespace MarkIt.Core.Services
 
             return result;
         }
+        public IEnumerable<Product> GetByName(string name)
+        {
+            var result = _context.Product.GetByName(name);
+            _context.Commit();
+
+            return result;
+        }
 
         public long Add(Product obj)
         {
