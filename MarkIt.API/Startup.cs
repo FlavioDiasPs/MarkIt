@@ -28,13 +28,9 @@ namespace MarkIt.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            //services.AddSingleton<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory<SqlConnection>>();
-            services.AddTransient<IDbContext, DbContext>();
             
-            //services.AddTransient<IDbConnection>();
-            //services.AddTransient<IDbTransaction>();
+            services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory<SqlConnection>>();
+            services.AddTransient<IDbContext, DbContext>();            
 
             services.AddTransient<IMarketService, MarketService>();
             services.AddTransient<IProductService, ProductService>();            

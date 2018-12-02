@@ -38,7 +38,10 @@ namespace MarkIt.Infra.Data.Repositories.Base
         public TEntity GetById(int id)
         {
             string sql = $"select * from {_tableName} where id = {id}";
-            return _connection.QueryFirstOrDefault<TEntity>(sql, transaction: _transaction);
+            var result = _connection.QueryFirstOrDefault<TEntity>(sql, transaction: _transaction);
+
+
+            return result;
         }      
 
         public void Remove(TEntity entity)

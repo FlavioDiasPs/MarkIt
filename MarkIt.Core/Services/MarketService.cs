@@ -1,5 +1,5 @@
 ﻿using MarkIt.Core.Entities;
-using MarkIt.Core.Interfaces.Repositories;
+using MarkIt.Core.Interfaces.DbContext;
 using MarkIt.Core.Interfaces.Services;
 using System.Collections.Generic;
 
@@ -7,36 +7,45 @@ namespace MarkIt.Core.Services
 {
     public class MarketService : IMarketService
     {
-        private readonly IMarketRepository _repository;
+        private readonly IDbContext _context;
 
-        public MarketService(IMarketRepository repository)
+        public MarketService(IDbContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public void Add(Market obj)
         {
-            _repository.Add(obj);
+            _context.Market.Add(obj);
+            _context.Commit();
         }
 
         public IEnumerable<Market> GetAll()
         {
-            return _repository.GetAll();
+            var result = _context.Market.GetAll();
+            _context.Commit();
+
+            return result;
         }
 
         public Market GetById(int id)
         {
-            return _repository.GetById(id);
+            var result = _context.Market.GetById(id);
+            _context.Commit();
+
+            return result;
         }
 
         public void Remove(Market obj)
         {
-            _repository.Remove(obj);
+            _context.Market.Remove(obj);
+            _context.Commit();
         }
 
         public void Update(Market obj)
         {
-            _repository.Update(obj);
+            _context.Market.Update(obj);
+            _context.Commit();
         }
     }
 }

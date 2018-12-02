@@ -10,7 +10,7 @@ namespace MarkIt.Api.Controllers
     public class MarketController : Base.ControllerBase
     {
         private readonly IMarketService _marketService;        
-        private readonly IProductService _productService;        
+        private readonly IProductService _productService;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
         //private readonly IMapper _mapper;        
@@ -23,8 +23,8 @@ namespace MarkIt.Api.Controllers
             
             //_mapper = mapper;            
         }
+        
 
-        // GET api/values
         [HttpGet]
         public IEnumerable<Core.Entities.Market> AllMarkets()
         {

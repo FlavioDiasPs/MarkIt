@@ -1,6 +1,4 @@
-﻿
-using MarkIt.Core.Entities;
-using MarkIt.Core.Interfaces.DbContext;
+﻿using MarkIt.Core.Entities;
 using MarkIt.Core.Interfaces.Services;
 using MarkIt.Core.Interfaces.Transactions;
 using Microsoft.AspNetCore.Http;
@@ -16,16 +14,14 @@ namespace MarkIt.Api.Controllers
     {
         private readonly IMarketService _marketService;        
         private readonly IProductService _productService;        
-        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        private readonly IDbContext _dbContext;
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;        
         //private readonly IMapper _mapper;        
 
-        public ProductController(IDbContext dbContext, IUnitOfWorkFactory unitOfWorkFactory, IMarketService marketService, IProductService productService) : base(unitOfWorkFactory)
+        public ProductController(IUnitOfWorkFactory unitOfWorkFactory, IMarketService marketService, IProductService productService) : base(unitOfWorkFactory)
         {
             _marketService = marketService;
             _productService = productService;
-            _unitOfWorkFactory = unitOfWorkFactory;
-            _dbContext = dbContext;
+            _unitOfWorkFactory = unitOfWorkFactory;            
             //_mapper = mapper;            
         }
 
@@ -33,7 +29,7 @@ namespace MarkIt.Api.Controllers
         [HttpGet]
         public IEnumerable<Product> AllProducts()
         {
-            return _dbContext.Product.GetAll();
+            return _productService.GetAll();
         }
 
         [HttpPost("")]
@@ -54,8 +50,7 @@ namespace MarkIt.Api.Controllers
         [HttpDelete]
         public int DeleteProductById([FromBody] Product product)
         {
-            _dbContext.Product.Remove(product);
-            _dbContext.Commit();
+            _productService.Remove(product);            
 
             return StatusCodes.Status200OK;
         }
@@ -63,7 +58,7 @@ namespace MarkIt.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetLastProduct( int id)
         {
-            var result = _dbContext.Product.GetById(id);
+            var result = _productService.GetById(id);
 
             if (result is null) return NotFound(id);
             
