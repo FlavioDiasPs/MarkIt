@@ -12,8 +12,9 @@ namespace MarkIt.Model
         //só pra funcionar no exemplo...
         public string Nome { get; set; }
         public string Titulo { get; set; }
-        //public string Name { get; set; }
-        //public List<Price> Prices { get; set; }
+        public string Barcode { get; set; }
+        public string Name { get; set; }
+        public List<Price> Prices { get; set; }
     }    public static class ProductRepository
     {
         private static List<Product> products;

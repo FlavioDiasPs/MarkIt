@@ -89,7 +89,7 @@ namespace MarkIt.ViewModel
                 if ((product == null) || (string.IsNullOrWhiteSpace(product.Nome)))
                     App.Current.MainPage.DisplayAlert("Atenção", "O campo nome é obrigatório", "OK");
                 else if (ProductRepository.PostProductAsync(product).GetAwaiter().GetResult())
-                    App.Current.MainPage.Navigation.PopAsync();
+                    App.Current.MainPage.Navigation.PushAsync(new View.MainPage());
                 else
                     App.Current.MainPage.DisplayAlert("Falhou", "Desculpe, ocorreu um erro inesperado =(", "OK");
             });                    
