@@ -7,7 +7,7 @@ namespace MarkIt.Core.Entities
         public string Name { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        List<Product> Products { get; set; }
+        List<Price> Prices { get; set; }
 
         public override string ToString()
         {
