@@ -2,7 +2,8 @@
 {
     public class Price
     {
-        public decimal Valor { get; set; }
+        public decimal Value { get; set; }
         public Market Market { get; set; }
+        public Product Product { get; set; }
     }
 }

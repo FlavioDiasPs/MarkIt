@@ -21,8 +21,9 @@ namespace MarkIt.Infra.Data.Repositories.Base
 
         public void Add(TEntity obj)
         {
-            string sql = "insert into Product values(@name, @description)";
-            connection.Execute(sql, new { obj }, transaction: transaction);
+            //string sql = "insert into Product values(@name, @description)";
+            //connection.Execute(sql, new { obj }, transaction: transaction);
+            throw new NotImplementedException();
         }
 
         public virtual IEnumerable<TEntity> GetAll()
