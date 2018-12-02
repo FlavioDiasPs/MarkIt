@@ -7,5 +7,10 @@ namespace MarkIt.Core.Entities
         public string Barcode { get; set; }
         public string Name { get; set; }
         public List<Price> Prices { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name}, {123.3}";
+        }
     }
 }

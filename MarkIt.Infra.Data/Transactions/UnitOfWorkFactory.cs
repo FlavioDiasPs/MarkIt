@@ -1,4 +1,4 @@
-﻿using MarkIt.Infra.Data.Transactions.Interfaces;
+﻿using MarkIt.Core.Interfaces.Transactions;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -45,7 +45,7 @@ namespace MarkIt.Infra.Data.Transactions
 
             return Connection;
         }
-        public UnitOfWork Create()
+        public IUnitOfWork Create()
         {
             return new UnitOfWork(CreateOpenConnection());
         }

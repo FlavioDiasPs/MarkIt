@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
+﻿using System.Data;
 
-namespace MarkIt.Infra.Data.Transactions.Interfaces
+namespace MarkIt.Core.Interfaces.Transactions
 {
     public interface IUnitOfWork
     {

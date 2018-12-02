@@ -21,7 +21,7 @@ namespace MarkIt.Core.Services
         }
 
         public IEnumerable<Product> GetAll()
-        {
+        {            
             return _repository.GetAll();
         }
 

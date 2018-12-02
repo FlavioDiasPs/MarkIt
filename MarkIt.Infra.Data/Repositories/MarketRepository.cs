@@ -1,16 +1,9 @@
-﻿using Dapper;
-using MarkIt.Core.Entities;
+﻿using MarkIt.Core.Entities;
+using MarkIt.Core.Interfaces.DbContext;
 using MarkIt.Core.Interfaces.Repositories;
-using MarkIt.Infra.Data.DapperConfig;
 using MarkIt.Infra.Data.Repositories.Base;
-using MarkIt.Infra.Data.Transactions;
-using MarkIt.Infra.Data.Transactions.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Transactions;
 
 namespace MarkIt.Infra.Data.Repositories
 {

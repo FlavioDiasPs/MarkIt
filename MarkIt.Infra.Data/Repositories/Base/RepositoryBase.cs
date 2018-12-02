@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using MarkIt.Core.Entities.Base;
+using MarkIt.Core.Interfaces.DbContext;
 
 namespace MarkIt.Infra.Data.Repositories.Base
 {
@@ -23,7 +24,7 @@ namespace MarkIt.Infra.Data.Repositories.Base
         }
 
         public void Add(TEntity entity)
-        {
+        {           
             string sql = $"insert into {_tableName} values({entity.ToString()})";
             _connection.Execute(sql, new { entity }, transaction: _transaction);
         }

@@ -1,4 +1,4 @@
-﻿using MarkIt.Infra.Data.Transactions.Interfaces;
+﻿using MarkIt.Core.Interfaces.Transactions;
 
 namespace MarkIt.Api.Controllers.Base
 {

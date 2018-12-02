@@ -1,5 +1,5 @@
 ﻿using MarkIt.Core.Interfaces.Services;
-using MarkIt.Infra.Data.Transactions.Interfaces;
+using MarkIt.Core.Interfaces.Transactions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 

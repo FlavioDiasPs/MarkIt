@@ -1,6 +1,5 @@
 ﻿using System.Data;
-using System;
-using MarkIt.Infra.Data.Transactions.Interfaces;
+using MarkIt.Core.Interfaces.Transactions;
 
 namespace MarkIt.Infra.Data.Transactions
 {

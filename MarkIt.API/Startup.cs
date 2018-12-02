@@ -1,17 +1,17 @@
 ﻿using MarkIt.Core.Entities;
+using MarkIt.Core.Interfaces.DbContext;
 using MarkIt.Core.Interfaces.Repositories;
 using MarkIt.Core.Interfaces.Services;
+using MarkIt.Core.Interfaces.Transactions;
 using MarkIt.Core.Services;
 using MarkIt.Infra.Data.DapperConfig;
 using MarkIt.Infra.Data.Repositories;
 using MarkIt.Infra.Data.Transactions;
-using MarkIt.Infra.Data.Transactions.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace MarkIt.Api

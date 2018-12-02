@@ -1,8 +1,8 @@
 ﻿
 using MarkIt.Core.Entities;
+using MarkIt.Core.Interfaces.DbContext;
 using MarkIt.Core.Interfaces.Services;
-using MarkIt.Infra.Data.Transactions;
-using MarkIt.Infra.Data.Transactions.Interfaces;
+using MarkIt.Core.Interfaces.Transactions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -40,15 +40,13 @@ namespace MarkIt.Api.Controllers
         public int AddRandomProduct()
         {
             Price price = new Price();
-            price.Valor = Convert.ToDecimal(new Random(12332).NextDouble());
+            //price.Valor = Convert.ToDecimal(new Random(12332).NextDouble());
 
             Product product = new Product(){
-                Name = new Random(12332).NextDouble().ToString(),
-                _Price = price
+                Name = new Random(12332).NextDouble().ToString()
             };
 
-            _dbContext.Product.Add(product);
-            _dbContext.Commit();
+            _productService.Add(product);
 
             return StatusCodes.Status200OK;
         }
