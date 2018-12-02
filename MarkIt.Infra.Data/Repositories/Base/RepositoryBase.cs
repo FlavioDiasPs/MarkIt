@@ -6,54 +6,57 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
+using MarkIt.Core.Entities.Base;
 
 namespace MarkIt.Infra.Data.Repositories.Base
 {
-    public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
-    {      
-        protected readonly IDbTransaction transaction;
-        protected readonly IDbConnection connection; 
+    public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : EntityBase, new()
+    {
+        protected readonly string _tableName;
+        protected readonly IDbTransaction _transaction;
+        protected readonly IDbConnection _connection;        
         public RepositoryBase(IDbContext context)
-        {            
-            transaction = context.UnitOfWork.Transaction;
-            connection = transaction.Connection;
+        {
+            _tableName = new TEntity().GetType().Name;
+            _transaction = context.UnitOfWork.Transaction;
+            _connection = _transaction.Connection;            
         }
 
-        public void Add(TEntity obj)
+        public void Add(TEntity entity)
         {
-            //string sql = "insert into Product values(@name, @description)";
-            //connection.Execute(sql, new { obj }, transaction: transaction);
-            throw new NotImplementedException();
+            string sql = $"insert into {_tableName} values({entity.ToString()})";
+            _connection.Execute(sql, new { entity }, transaction: _transaction);
         }
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            //connection.QuerySingleOrDefault<IEnumerable<Product>>("select * from dbo.Product", transaction: transaction);
-            throw new NotImplementedException();
+            string sql = $"select * from {_tableName}";
+            return _connection.Query<TEntity>(sql, transaction: _transaction);
         }
 
         public TEntity GetById(int id)
         {
-            throw new NotImplementedException();
-        }
-        public IQueryable<TEntity> Queryable()
+            string sql = $"select * from {_tableName} where id = {id}";
+            return _connection.QueryFirstOrDefault<TEntity>(sql, transaction: _transaction);
+        }      
+
+        public void Remove(TEntity entity)
         {
+            string sql = $"delete from {_tableName} where id = {entity.Id}";
+            _connection.Execute(sql, transaction: _transaction);
+        }
+
+        public void Update(TEntity entity)
+        {
+            //string sql = $"update {_tableName} set @id = {entity.Id}";
+            //_connection.Execute(sql, transaction: _transaction);
+
             throw new NotImplementedException();
         }
 
-        public void Remove(TEntity obj)
+        public IQueryable<TEntity> FromSql(string sql, SqlParameter[] parameters)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(TEntity obj)
-        {
-            throw new NotImplementedException();
-        }
-        public IQueryable<TEntity> FromSql(object obj, string sql, SqlParameter[] parameters)
-        {
-            throw new NotImplementedException();
-            //return _context.Repository.FromSql(obj, sql, parameters).AsQueryable<TEntity>;
+            return _connection.Query<TEntity>(sql, parameters).AsQueryable();            
         }
     }
 }

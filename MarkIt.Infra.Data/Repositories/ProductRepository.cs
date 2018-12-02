@@ -20,17 +20,17 @@ namespace MarkIt.Infra.Data.Repositories
         {            
         }
 
-        public void AddProduct(Product obj)
-        {
-            string sql = "insert into Product values(@name, @description)";
-            string description = Convert.ToString(55);
+        //public void AddProduct(Product obj)
+        //{            
+        //    string sql = "insert into Product values(@name, @description)";
+        //    string description = Convert.ToString(55);
 
-            connection.Execute(sql, new { obj.Name, description }, transaction: transaction);
-        }
+        //    _connection.Execute(sql, new { obj.Name, description }, transaction: _transaction);
+        //}
 
         public IEnumerable<Product> QuerySomething()
         {            
-            return connection.QuerySingleOrDefault<IEnumerable<Product>>("select * from dbo.Product", transaction: transaction);
+            return _connection.QuerySingleOrDefault<IEnumerable<Product>>("select * from dbo.Product", transaction: _transaction);
         }
 
         public IQueryable<Product> GetProductsFromMarket()

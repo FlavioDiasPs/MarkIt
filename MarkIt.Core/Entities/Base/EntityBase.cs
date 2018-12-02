@@ -5,6 +5,6 @@ namespace MarkIt.Core.Entities.Base
     public abstract class EntityBase
     {
         [Key, Required]
-        public int Id { get; private set; }
+        public int Id { get; set; }
     }
 }

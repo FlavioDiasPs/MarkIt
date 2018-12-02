@@ -36,15 +36,40 @@ namespace MarkIt.Api.Controllers
             return _dbContext.Product.GetAll();
         }
 
-        [HttpPost]
+        [HttpPost("")]
         public int AddRandomProduct()
         {
-            _dbContext.Product.AddProduct(
-                    new Product() {
-                        Name = new Random(12332).NextDouble().ToString()
-                    });
+            Price price = new Price();
+            price.Valor = Convert.ToDecimal(new Random(12332).NextDouble());
+
+            Product product = new Product(){
+                Name = new Random(12332).NextDouble().ToString(),
+                _Price = price
+            };
+
+            _dbContext.Product.Add(product);
             _dbContext.Commit();
+
             return StatusCodes.Status200OK;
+        }
+
+        [HttpDelete]
+        public int DeleteProductById([FromBody] Product product)
+        {
+            _dbContext.Product.Remove(product);
+            _dbContext.Commit();
+
+            return StatusCodes.Status200OK;
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetLastProduct( int id)
+        {
+            var result = _dbContext.Product.GetById(id);
+
+            if (result is null) return NotFound(id);
+            
+            return Ok(result);                                
         }
     }
 }
