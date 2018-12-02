@@ -5,12 +5,9 @@ using MarkIt.Infra.Data.Transactions.Interfaces;
 namespace MarkIt.Infra.Data.Transactions
 {
     public class UnitOfWork : IUnitOfWork
-    {        
+    {
         public UnitOfWork(IDbConnection connection)
         {
-            if (connection.State == ConnectionState.Closed)
-                connection.Open();
-
             Transaction = connection.BeginTransaction();
         }
         public IDbTransaction Transaction { get; set; }

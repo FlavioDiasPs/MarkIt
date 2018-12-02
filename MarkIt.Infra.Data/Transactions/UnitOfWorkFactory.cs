@@ -10,27 +10,27 @@ namespace MarkIt.Infra.Data.Transactions
     public class UnitOfWorkFactory<TConnection> : IUnitOfWorkFactory where TConnection : IDbConnection, new()
     {
         private readonly IConfiguration _configuration;
-
         public UnitOfWorkFactory(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+
+        TConnection _connection;
         public IDbConnection Connection
         {
             get
             {
-                return new TConnection()
-                {                  
-                    ConnectionString = _configuration.GetConnectionString("MyConnectionString")
-                };
+                if (string.IsNullOrEmpty(_connection?.ConnectionString))
+                    _connection = new TConnection()
+                    {
+                        ConnectionString = _configuration.GetConnectionString("MyConnectionString")
+                    };
+
+                return _connection;
             }
         }
-        public UnitOfWork Create()
-        {
-            return new UnitOfWork(CreateOpenConnection());
-        }
         private IDbConnection CreateOpenConnection()
-        {            
+        {
             try
             {
                 if (Connection.State != ConnectionState.Open)
@@ -44,6 +44,10 @@ namespace MarkIt.Infra.Data.Transactions
             }
 
             return Connection;
+        }
+        public UnitOfWork Create()
+        {
+            return new UnitOfWork(CreateOpenConnection());
         }
     }
 }
