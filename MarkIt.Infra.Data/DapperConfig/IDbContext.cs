@@ -1,17 +1,14 @@
-﻿using MarkIt.Core.Interfaces.Repositories;
-using MarkIt.Core.Interfaces.Repositories.Base;
-using MarkIt.Infra.Data.Repositories.Base;
-using MarkIt.Infra.Data.Transactions.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using MarkIt.Core.Interfaces.Repositories;
+using MarkIt.Infra.Data.Repositories;
 
 namespace MarkIt.Infra.Data.Transactions
 {
-    public interface IDbContext<TEntity> where TEntity : class
+    public interface IDbContext
     {
-        UnitOfWork UnitOfWork { get; }        
-        IRepositoryBase<TEntity> Repository{ get; }
+        UnitOfWork UnitOfWork { get; }
+        ProductRepository Product { get;  }
+        MarketRepository Market { get;  }
 
         void Commit();
         void Rollback();

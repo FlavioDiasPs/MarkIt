@@ -1,4 +1,5 @@
-﻿using MarkIt.Core.Interfaces.Repositories;
+﻿using MarkIt.Core.Entities;
+using MarkIt.Core.Interfaces.Repositories;
 using MarkIt.Core.Interfaces.Services;
 using MarkIt.Core.Services;
 using MarkIt.Infra.Data.DapperConfig;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace MarkIt.Api
@@ -25,9 +27,14 @@ namespace MarkIt.Api
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {            
-            services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory<SqlConnection>>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+        {
+
+            //services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory<SqlConnection>>();
+            services.AddTransient<IDbContext, DbContext>();
+            
+            //services.AddTransient<IDbConnection>();
+            //services.AddTransient<IDbTransaction>();
 
             services.AddTransient<IMarketService, MarketService>();
             services.AddTransient<IProductService, ProductService>();            

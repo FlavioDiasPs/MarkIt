@@ -19,8 +19,8 @@ namespace MarkIt.Infra.Data.Transactions
         {
             get
             {
-                return new TConnection
-                {
+                return new TConnection()
+                {                  
                     ConnectionString = _configuration.GetConnectionString("MyConnectionString")
                 };
             }

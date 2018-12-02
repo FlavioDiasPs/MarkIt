@@ -16,11 +16,8 @@ namespace MarkIt.Infra.Data.Repositories
 {
     public class MarketRepository : RepositoryBase<Market>, IMarketRepository
     {        
-        protected readonly IDbContext<Market> _context;
-
-        public MarketRepository(IDbContext<Market> context) : base(context)
-        {
-            _context = context;           
+        public MarketRepository(IDbContext context) : base(context)
+        {            
         }
 
         public void AddMarket(Market obj)

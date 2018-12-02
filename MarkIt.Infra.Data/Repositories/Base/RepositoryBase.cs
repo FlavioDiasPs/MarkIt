@@ -1,53 +1,53 @@
 ﻿using MarkIt.Core.Interfaces.Repositories.Base;
-using MarkIt.Infra.Data.DapperConfig;
 using MarkIt.Infra.Data.Transactions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
+using Dapper;
 
 namespace MarkIt.Infra.Data.Repositories.Base
 {
     public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
-    {
-
-        private readonly IDbContext<TEntity> _context;
-        public RepositoryBase(IDbContext<TEntity> context)
-        {
-            _context = context;
+    {      
+        protected readonly IDbTransaction transaction;
+        protected readonly IDbConnection connection; 
+        public RepositoryBase(IDbContext context)
+        {            
+            transaction = context.UnitOfWork.Transaction;
+            connection = transaction.Connection;
         }
 
         public void Add(TEntity obj)
         {
-            _context.Repository.Add(obj);
-            _context.Commit();
+            string sql = "insert into Product values(@name, @description)";
+            connection.Execute(sql, new { obj }, transaction: transaction);
         }
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return _context.Repository.GetAll();
+            //connection.QuerySingleOrDefault<IEnumerable<Product>>("select * from dbo.Product", transaction: transaction);
+            throw new NotImplementedException();
         }
 
         public TEntity GetById(int id)
         {
-            return _context.Repository.GetById(id);
+            throw new NotImplementedException();
         }
         public IQueryable<TEntity> Queryable()
         {
-            return _context.Repository.Queryable();
+            throw new NotImplementedException();
         }
 
         public void Remove(TEntity obj)
         {
-            _context.Repository.Remove(obj);
-            _context.Commit();
+            throw new NotImplementedException();
         }
 
         public void Update(TEntity obj)
         {
-            _context.Repository.Update(obj);
-            _context.Commit();
+            throw new NotImplementedException();
         }
         public IQueryable<TEntity> FromSql(object obj, string sql, SqlParameter[] parameters)
         {
