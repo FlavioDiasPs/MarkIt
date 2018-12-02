@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MarkIt.Core.Interfaces.Repositories
 {
-    public interface IMarketRepository : IRepositoryBase<Market>
+    public interface IProductRepository : IRepositoryBase<Product>
     {
     }    
 }

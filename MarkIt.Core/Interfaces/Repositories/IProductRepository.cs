@@ -1,11 +1,11 @@
 ﻿using MarkIt.Core.Entities;
 using MarkIt.Core.Interfaces.Repositories.Base;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace MarkIt.Core.Interfaces.Repositories
 {
-    public interface IProductRepository : IRepositoryBase<Product>
+    public interface IPriceRepository : IRepositoryBase<Price>
     {
-        IQueryable<Product> GetProductsFromMarket();    
+        IEnumerable<Price> GetPricesByProductId(int productId);
     }    
 }

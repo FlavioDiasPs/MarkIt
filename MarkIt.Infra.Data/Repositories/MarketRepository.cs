@@ -11,16 +11,6 @@ namespace MarkIt.Infra.Data.Repositories
     {        
         public MarketRepository(IDbContext context) : base(context)
         {            
-        }
-
-        public void AddMarket(Market obj)
-        {
-            Add(obj);
-        }
-
-        public IQueryable<Market> GetClosestMarkets(string latitude, string longitude)
-        {
-            throw new NotImplementedException();
-        }
+        }       
     }
 }

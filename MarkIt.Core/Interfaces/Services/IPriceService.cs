@@ -1,0 +1,11 @@
+﻿using MarkIt.Core.Entities;
+using MarkIt.Core.Interfaces.Services.Base;
+using System.Collections.Generic;
+
+namespace MarkIt.Core.Interfaces.Services
+{
+    public interface IPriceService : IServiceBase<Price>
+    {
+        IEnumerable<Price> GetPricesByProductId(int productId);
+    }
+}

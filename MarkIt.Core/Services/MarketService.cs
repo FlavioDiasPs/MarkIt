@@ -13,13 +13,7 @@ namespace MarkIt.Core.Services
         {
             _context = context;
         }
-
-        public void Add(Market obj)
-        {
-            _context.Market.Add(obj);
-            _context.Commit();
-        }
-
+        
         public IEnumerable<Market> GetAll()
         {
             var result = _context.Market.GetAll();
@@ -27,7 +21,6 @@ namespace MarkIt.Core.Services
 
             return result;
         }
-
         public Market GetById(int id)
         {
             var result = _context.Market.GetById(id);
@@ -36,16 +29,26 @@ namespace MarkIt.Core.Services
             return result;
         }
 
-        public void Remove(Market obj)
+        public long Add(Market obj)
         {
-            _context.Market.Remove(obj);
+            var result = _context.Market.Add(obj);
             _context.Commit();
-        }
 
-        public void Update(Market obj)
+            return result;
+        }
+        public bool Remove(Market obj)
         {
-            _context.Market.Update(obj);
+            var result = _context.Market.Remove(obj);
             _context.Commit();
+
+            return result;
+        }
+        public bool Update(Market obj)
+        {
+            var result = _context.Market.Update(obj);
+            _context.Commit();
+
+            return result;
         }
     }
 }

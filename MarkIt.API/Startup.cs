@@ -1,10 +1,9 @@
-﻿using MarkIt.Core.Entities;
-using MarkIt.Core.Interfaces.DbContext;
+﻿using MarkIt.Core.Interfaces.DbContext;
 using MarkIt.Core.Interfaces.Repositories;
 using MarkIt.Core.Interfaces.Services;
 using MarkIt.Core.Interfaces.Transactions;
 using MarkIt.Core.Services;
-using MarkIt.Infra.Data.DapperConfig;
+using MarkIt.Infra.Data.DbContext;
 using MarkIt.Infra.Data.Repositories;
 using MarkIt.Infra.Data.Transactions;
 using Microsoft.AspNetCore.Builder;
@@ -30,11 +29,13 @@ namespace MarkIt.Api
         {
             
             services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory<SqlConnection>>();
-            services.AddTransient<IDbContext, DbContext>();            
+            services.AddTransient<IDbContext, DbContext>();
 
+            services.AddTransient<IPriceService, PriceService>();
             services.AddTransient<IMarketService, MarketService>();
-            services.AddTransient<IProductService, ProductService>();            
+            services.AddTransient<IProductService, ProductService>();
 
+            services.AddTransient<IPriceRepository, PriceRepository>();
             services.AddTransient<IMarketRepository, MarketRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();            
 
