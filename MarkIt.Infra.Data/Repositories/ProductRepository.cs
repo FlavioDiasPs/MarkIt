@@ -23,9 +23,9 @@ namespace MarkIt.Infra.Data.Repositories
         public void AddProduct(Product obj)
         {
             string sql = "insert into Product values(@name, @description)";
-            string preco = Convert.ToString(obj.Price.Valor);
+            string description = Convert.ToString(55);
 
-            connection.Execute(sql, new { obj.Name, preco }, transaction: transaction);
+            connection.Execute(sql, new { obj.Name, description }, transaction: transaction);
         }
 
         public IEnumerable<Product> QuerySomething()

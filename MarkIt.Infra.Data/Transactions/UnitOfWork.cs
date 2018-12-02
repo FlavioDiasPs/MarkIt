@@ -8,6 +8,9 @@ namespace MarkIt.Infra.Data.Transactions
     {        
         public UnitOfWork(IDbConnection connection)
         {
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
+
             Transaction = connection.BeginTransaction();
         }
         public IDbTransaction Transaction { get; set; }
