@@ -27,7 +27,6 @@ namespace MarkIt.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory<SqlConnection>>();
             services.AddTransient<IDbContext, DbContext>();
 
@@ -37,9 +36,11 @@ namespace MarkIt.Api
 
             services.AddTransient<IPriceRepository, PriceRepository>();
             services.AddTransient<IMarketRepository, MarketRepository>();
-            services.AddTransient<IProductRepository, ProductRepository>();            
+            services.AddTransient<IProductRepository, ProductRepository>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(opt => opt.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -30,8 +30,8 @@ namespace MarkIt.Infra.Data.Repositories
                 transaction:_transaction, 
                 commandType: CommandType.StoredProcedure, 
                 map:(price, product, market) => {
-                    price.Product = new Product() { Id = product };
-                    price.Market = new Market() { Id = product };
+                    price.Product = new Product() { Id = product, Barcode = productBarCode };
+                    price.Market = new Market() { Id = market };
                     return price;
                 }, splitOn: "Id, ProductId, MarketId");
 
