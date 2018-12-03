@@ -17,7 +17,6 @@ namespace MarkIt.View.Product
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Task.Run(() => App.ProductVM.LoadProducts());
         }
 
         private async void Button_Clicked(object sender, EventArgs e)

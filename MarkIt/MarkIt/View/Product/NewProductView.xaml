@@ -14,7 +14,7 @@
 
     <ContentPage.Content>
         <StackLayout x:Name="rootProduct" Padding="7" BindingContext="{Binding SelectedProduct}">
-            <Entry x:Name="txtNome" Placeholder="Nome" Text="{Binding Nome}" />
+            <Entry x:Name="txtNome" Placeholder="Nome" Text="{Binding Name}" />
             <Entry x:Name="txtTitulo" Placeholder="Titulo" Text="{Binding Titulo}" />
         </StackLayout>
     </ContentPage.Content>

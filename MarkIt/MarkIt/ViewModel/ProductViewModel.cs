@@ -1,4 +1,5 @@
 ﻿using MarkIt.Model;
+using MarkIt.Model.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,18 @@ namespace MarkIt.ViewModel
             {
                 selectedProduct = value as Product;
                 EventPropertyChanged();
+                if (value != null)
+                {
+                    ProductModel = value;
+                    ProductDetail(value);
+                }
             }
+        }
+
+        private void ProductDetail(Product value)
+        {
+
+            App.Current.MainPage.Navigation.PushAsync( new View.Product.ProductDetailView() { BindingContext = App.ProductVM });
         }
 
         private string searchByName;
@@ -45,114 +57,132 @@ namespace MarkIt.ViewModel
         public List<Product> stagedProductList;
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
 
-        // UI Events
-        public OnAddProductCMD OnAddProductCMD { get; }
-        public OnEditProductCMD OnEditProductCMD { get; }        
-        public ICommand OnNewProductCMD { get; private set; }
-        public ICommand OnQuitCMD { get; private set; }
-        
+
+        //// UI Events
+        //public OnAddProductCMD OnAddProductCMD { get; }
+        //public OnEditProductCMD OnEditProductCMD { get; }        
+        //public ICommand OnNewProductCMD { get; private set; }
+        //public ICommand OnQuitCMD { get; private set; }
+
 
         public ProductViewModel()
         {            
-            OnAddProductCMD = new OnAddProductCMD(this);
-            OnEditProductCMD = new OnEditProductCMD(this);
-            OnQuitCMD = new Command(OnQuit);
-            OnNewProductCMD = new Command(OnNewProduct);
+            //OnAddProductCMD = new OnAddProductCMD(this);
+            //OnEditProductCMD = new OnEditProductCMD(this);
+            //OnQuitCMD = new Command(OnQuit);
+            //OnNewProductCMD = new Command(OnNewProduct);
 
             stagedProductList = new List<Product>();
-            Task.Run(() => LoadProducts());
+            Task.Run(() => LoadPopularProducts());
         }
 
 
-        public async Task LoadProducts()
+        public async Task LoadPopularProducts()
         {
             stagedProductList = await ProductRepository.GetProductsAsync();
-            ApplyFilter();
+            stagedProductList.ForEach(p => Products.Add(p));
+        }
+
+        public async Task LoadProducts(string keyword)
+        {
+            stagedProductList = await ProductRepository.GetProductsByKeywordAsync(keyword);
+            stagedProductList.ForEach(p => Products.Add(p));
         }
 
         private void ApplyFilter()
         {
             if (searchByName == null) searchByName = "";
-
             Products.Clear();
-
-            var resultado = stagedProductList.Where(n => n.Nome.ToLowerInvariant()
-                                .Contains(SearchByName.ToLowerInvariant().Trim())).ToList();
-
-            resultado.ForEach(p => Products.Add(p));
+            Task.Run(() => LoadProducts(searchByName));
         }
 
-        public async Task AddAsync(Product product)
-        {
-            await new TaskFactory().StartNew(() =>
-            {
-                if ((product == null) || (string.IsNullOrWhiteSpace(product.Nome)))
-                    App.Current.MainPage.DisplayAlert("Atenção", "O campo nome é obrigatório", "OK");
-                else if (ProductRepository.PostProductAsync(product).GetAwaiter().GetResult())
-                    App.Current.MainPage.Navigation.PushAsync(new View.MainPage());
-                else
-                    App.Current.MainPage.DisplayAlert("Falhou", "Desculpe, ocorreu um erro inesperado =(", "OK");
-            });                    
-        }
+        //public async Task AddAsync(Product product)
+        //{
+        //    await new TaskFactory().StartNew(() =>
+        //    {
+        //        if ((product == null) || (string.IsNullOrWhiteSpace(product.Name)))
+        //            App.Current.MainPage.DisplayAlert("Atenção", "O campo nome é obrigatório", "OK");
+        //        else if (ProductRepository.PostProductAsync(product).GetAwaiter().GetResult())
+        //            App.Current.MainPage.Navigation.PushAsync(new View.MainPage());
+        //        else
+        //            App.Current.MainPage.DisplayAlert("Falhou", "Desculpe, ocorreu um erro inesperado =(", "OK");
+        //    });                    
+        //}
 
-        public async void Edit()
-        {
-            await App.Current.MainPage.Navigation.PushAsync(
-                new View.Product.NewProductView() { BindingContext = App.ProductVM });
-        }        
+        //public async void Edit()
+        //{
+        //    await App.Current.MainPage.Navigation.PushAsync(
+        //        new View.Product.NewProductView() { BindingContext = App.ProductVM });
+        //}        
+
 
         private async void OnQuit()
         {
             await App.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void OnNewProduct()
-        {
-            App.ProductVM.SelectedProduct = new Product();
-            App.Current.MainPage.Navigation.PushAsync(new View.Product.NewProductView() { BindingContext = App.ProductVM });
-        }
+        //private void OnNewProduct()
+        //{
+        //    App.ProductVM.SelectedProduct = new Product();
+        //    App.Current.MainPage.Navigation.PushAsync(new View.Product.NewProductView() { BindingContext = App.ProductVM });
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void EventPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
 
-    public class OnAddProductCMD : ICommand
-    {
-        private ProductViewModel ProductVM;
-        public OnAddProductCMD(ProductViewModel paramVM)
-        {
-            ProductVM = paramVM;
-        }
-        public event EventHandler CanExecuteChanged;
-        public void AdicionarCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        public bool CanExecute(object parameter) => true;
-        public void Execute(object parameter)
-        {
-            ProductVM.AddAsync(parameter as Product).GetAwaiter().GetResult();
-        }
-    }
+    //public class OnAddProductCMD : ICommand
+    //{
+    //    private ProductViewModel ProductVM;
+    //    public OnAddProductCMD(ProductViewModel paramVM)
+    //    {
+    //        ProductVM = paramVM;
+    //    }
+    //    public event EventHandler CanExecuteChanged;
+    //    public void AdicionarCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    //    public bool CanExecute(object parameter) => true;
+    //    public void Execute(object parameter)
+    //    {
+    //        //ProductVM.AddAsync(parameter as Product).GetAwaiter().GetResult();
+    //    }
+    //}
 
-    public class OnEditProductCMD : ICommand
-    {
-        private ProductViewModel ProductVM;
-        public OnEditProductCMD(ProductViewModel paramVM)
-        {
-            ProductVM = paramVM;
-        }
-        public event EventHandler CanExecuteChanged;
-        public void EditarCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        public bool CanExecute(object parameter) => (parameter != null);
-        public void Execute(object parameter)
-        {
-            App.ProductVM.SelectedProduct = parameter as Product;
-            ProductVM.Edit();
-        }
-    }   
+    //public class OnEditProductCMD : ICommand
+    //{
+    //    private ProductViewModel ProductVM;
+    //    public OnEditProductCMD(ProductViewModel paramVM)
+    //    {
+    //        ProductVM = paramVM;
+    //    }
+    //    public event EventHandler CanExecuteChanged;
+    //    public void EditarCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    //    public bool CanExecute(object parameter) => (parameter != null);
+    //    public void Execute(object parameter)
+    //    {
+    //        App.ProductVM.SelectedProduct = parameter as Product;
+    //        ProductVM.Edit();
+    //    }
+    //} 
+
+    //public class OnEditProductCMD : ICommand
+    //{
+    //    private ProductViewModel ProductVM;
+    //    public OnEditProductCMD(ProductViewModel paramVM)
+    //    {
+    //        ProductVM = paramVM;
+    //    }
+    //    public event EventHandler CanExecuteChanged;
+    //    public void EditarCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    //    public bool CanExecute(object parameter) => (parameter != null);
+    //    public void Execute(object parameter)
+    //    {
+    //        App.ProductVM.SelectedProduct = parameter as Product;
+    //        ProductVM.Edit();
+    //    }
+    //} 
+
 }
