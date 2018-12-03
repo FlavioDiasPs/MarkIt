@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace MarkIt.Core.Interfaces.Services
 {
-    public interface IProductService : IServiceBase<Product>
+    public interface IPriceService : IServiceBase<Price>
     {
-        IEnumerable<Product> GetByName(string name);
-    }    
+        IEnumerable<Price> GetPricesByProductBarCode(string productBarCode);
+    }
 }

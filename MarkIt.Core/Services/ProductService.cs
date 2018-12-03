@@ -14,14 +14,7 @@ namespace MarkIt.Core.Services
         {
             _context = context;
         }
-
-
-        public void Add(Product obj)
-        {
-            _context.Product.Add(obj);
-            _context.Commit();
-        }
-
+            
         public IEnumerable<Product> GetAll()
         {            
             var result = _context.Product.GetAll();
@@ -29,7 +22,6 @@ namespace MarkIt.Core.Services
 
             return result;
         }
-
         public Product GetById(int id)
         {            
             var result = _context.Product.GetById(id);
@@ -37,17 +29,34 @@ namespace MarkIt.Core.Services
 
             return result;
         }
-
-        public void Remove(Product obj)
+        public IEnumerable<Product> GetByName(string name)
         {
-            _context.Product.Remove(obj);
+            var result = _context.Product.GetByName(name);
             _context.Commit();
+
+            return result;
         }
 
-        public void Update(Product obj)
+        public long Add(Product obj)
         {
-            _context.Product.Update(obj);
+            var result = _context.Product.Add(obj);
             _context.Commit();
+
+            return result;
         }
-    }
+        public bool Remove(Product obj)
+        {
+            var result = _context.Product.Remove(obj);
+            _context.Commit();
+
+            return result;
+        }
+        public bool Update(Product obj)
+        {
+            var result = _context.Product.Update(obj);
+            _context.Commit();
+
+            return result;
+        }
+    }          
 }

@@ -7,9 +7,9 @@ namespace MarkIt.Core.Interfaces.Repositories.Base
 {
     public interface IRepositoryBase<TEntity> where TEntity : EntityBase, new()
     {
-        void Add(TEntity obj);
-        void Update(TEntity obj);
-        void Remove(TEntity obj);
+        long Add(TEntity obj);
+        bool Update(TEntity obj);
+        bool Remove(TEntity obj);
 
         TEntity GetById(int id);
         IEnumerable<TEntity> GetAll();     

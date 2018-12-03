@@ -4,7 +4,7 @@ namespace MarkIt.Core.Entities.Base
 {
     public abstract class EntityBase
     {
-        [Key, Required]
+        [Dapper.Contrib.Extensions.Key, Required]
         public int Id { get; set; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using MarkIt.Core.Interfaces.Transactions;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace MarkIt.Infra.Data.Transactions
 {
@@ -23,7 +21,7 @@ namespace MarkIt.Infra.Data.Transactions
                 if (string.IsNullOrEmpty(_connection?.ConnectionString))
                     _connection = new TConnection()
                     {
-                        ConnectionString = _configuration.GetConnectionString("MyConnectionString")
+                        ConnectionString = _configuration.GetConnectionString("MarkItConnectionString")
                     };
 
                 return _connection;

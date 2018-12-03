@@ -11,17 +11,13 @@ namespace MarkIt.Api.Controllers
     {
         private readonly IMarketService _marketService;        
         private readonly IProductService _productService;
-        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-
-        //private readonly IMapper _mapper;        
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;        
 
         public MarketController(IUnitOfWorkFactory unitOfWorkFactory, IMarketService marketService, IProductService productService) : base(unitOfWorkFactory)
         {
             _marketService = marketService;
             _productService = productService;
-            _unitOfWorkFactory = unitOfWorkFactory;
-            
-            //_mapper = mapper;            
+            _unitOfWorkFactory = unitOfWorkFactory;                        
         }
         
 

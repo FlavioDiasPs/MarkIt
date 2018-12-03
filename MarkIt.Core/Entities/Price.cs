@@ -1,13 +1,14 @@
-﻿namespace MarkIt.Core.Entities
+﻿using Dapper.Contrib.Extensions;
+using System;
+
+namespace MarkIt.Core.Entities
 {
+    [Table("[Price]")]
     public class Price : Base.EntityBase
     {
         public decimal Value { get; set; }
         public Market Market { get; set; }
         public Product Product { get; set; }
-        public override string ToString()
-        {
-            return $"{Value}";
-        }
+        public DateTime Data { get; set; }
     }
 }

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace MarkIt.Core.Interfaces.Repositories
 {
-    public interface IPriceRepository : IRepositoryBase<Price>
+    public interface IProductRepository : IRepositoryBase<Product>
     {
-        IEnumerable<Price> GetPricesByProductBarCode(string productBarCode);
+        IEnumerable<Product> GetByName(string name);
     }    
 }

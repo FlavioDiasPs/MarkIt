@@ -12,27 +12,40 @@ namespace MarkIt.Api.Controllers
     [ApiController]
     public class ProductController : Base.ControllerBase
     {
-        private readonly IMarketService _marketService;        
-        private readonly IProductService _productService;        
-        private readonly IUnitOfWorkFactory _unitOfWorkFactory;        
-        //private readonly IMapper _mapper;        
+        private readonly IMarketService _marketService;
+        private readonly IProductService _productService;
+        private readonly IPriceService _priceService;
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;                  
 
-        public ProductController(IUnitOfWorkFactory unitOfWorkFactory, IMarketService marketService, IProductService productService) : base(unitOfWorkFactory)
+        public ProductController(IUnitOfWorkFactory unitOfWorkFactory, IMarketService marketService, IProductService productService, IPriceService priceService) : base(unitOfWorkFactory)
         {
             _marketService = marketService;
             _productService = productService;
-            _unitOfWorkFactory = unitOfWorkFactory;            
-            //_mapper = mapper;            
+            _priceService = priceService;
+            _unitOfWorkFactory = unitOfWorkFactory;                        
         }
 
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<Product> AllProducts()
+        [HttpGet("{productBarCode}")]
+        public IActionResult GetPriceByProductBarCode(string productBarCode)
         {
-            return _productService.GetAll();
+            var result = _priceService.GetPricesByProductBarCode(productBarCode);
+
+            if (result is null) return NotFound(productBarCode);
+
+            return Ok(result);
         }
 
-        [HttpPost("")]
+        [HttpGet("name/{name}")]
+        public IActionResult GetProductByName(string name)
+        {
+            var result = _productService.GetByName(name);
+
+            if (result is null) return NotFound(name);
+
+            return Ok(result);
+        }
+
+        [HttpPost()]
         public int AddRandomProduct()
         {
             Price price = new Price();
@@ -55,14 +68,14 @@ namespace MarkIt.Api.Controllers
             return StatusCodes.Status200OK;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetLastProduct( int id)
-        {
-            var result = _productService.GetById(id);
+        //[HttpGet("{id}")]
+        //public IActionResult GetLastProduct( int id)
+        //{
+        //    var result = _productService.GetById(id);
 
-            if (result is null) return NotFound(id);
+        //    if (result is null) return NotFound(id);
             
-            return Ok(result);                                
-        }
+        //    return Ok(result);                                
+        //}
     }
 }

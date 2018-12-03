@@ -6,8 +6,9 @@ namespace MarkIt.Core.Interfaces.DbContext
     public interface IDbContext
     {
         IUnitOfWork UnitOfWork { get; }
-        IProductRepository Product { get;  }
-        IMarketRepository Market { get;  }
+        IProductRepository Product { get; }
+        IMarketRepository Market { get; }
+        IPriceRepository Price { get; }
 
         void Commit();
         void Rollback();
