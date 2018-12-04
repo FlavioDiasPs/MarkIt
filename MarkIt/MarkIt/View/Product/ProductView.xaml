@@ -16,14 +16,13 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackLayout x:Name="laySearch" Grid.Row="0" Padding="5">
-                <StackLayout Grid.Row="0" Padding="5">
-                    <Button Text="Scan barcode" Clicked="Button_Clicked" />
+                <StackLayout Padding="5">
+                    <Button Text="Scan barcode" Command="{Binding ScanBarcodeCommand}"   />
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="End">
-                    <Label Text="Bem-vindo, " FontSize="15"/>
-                    <Label Text="{Binding Name}" FontSize="15" FontAttributes="Bold" />
+                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Padding="5">
+                    <Entry x:Name="SearchByName" Placeholder="Search by name" Text="{Binding SearchByName}" HorizontalOptions="FillAndExpand" WidthRequest="250"  />
+                        <Button Text="Search" Command="{Binding SearchCommand}"  />
                 </StackLayout>
-                <SearchBar  x:Name="SearchByName" Placeholder="Search by name" Text="{Binding SearchByName}" />
             </StackLayout>
             <StackLayout x:Name="layList" Grid.Row="1" Padding="7">
                 <ListView x:Name="lstProduct" ItemsSource="{Binding Products}"                          

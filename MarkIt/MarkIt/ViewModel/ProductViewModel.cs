@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using ZXing.Net.Mobile.Forms;
 
 namespace MarkIt.ViewModel
 {
@@ -50,7 +51,7 @@ namespace MarkIt.ViewModel
 
                 searchByName = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchByName)));
-                ApplyFilter();
+                //ApplyFilter();
             }
         }
 
@@ -58,7 +59,8 @@ namespace MarkIt.ViewModel
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
 
 
-        //// UI Events
+        public Command SearchCommand { get; }
+        public Command ScanBarcodeCommand { get; }
         //public OnAddProductCMD OnAddProductCMD { get; }
         //public OnEditProductCMD OnEditProductCMD { get; }        
         //public ICommand OnNewProductCMD { get; private set; }
@@ -66,7 +68,10 @@ namespace MarkIt.ViewModel
 
 
         public ProductViewModel()
-        {            
+        {
+
+            SearchCommand = new Command(Search);
+            ScanBarcodeCommand = new Command(ScanBarcode);
             //OnAddProductCMD = new OnAddProductCMD(this);
             //OnEditProductCMD = new OnEditProductCMD(this);
             //OnQuitCMD = new Command(OnQuit);
@@ -76,6 +81,19 @@ namespace MarkIt.ViewModel
             Task.Run(() => LoadPopularProducts());
         }
 
+        private void ScanBarcode(object obj)
+        {
+            var scan = new ZXingScannerPage();
+            App.Current.MainPage.Navigation.PushAsync(scan);
+            scan.OnScanResult += (result) =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await App.Current.MainPage.Navigation.PopAsync();
+                    SearchByName = result.Text;
+                });
+            };
+        }
 
         public async Task LoadPopularProducts()
         {
@@ -89,12 +107,12 @@ namespace MarkIt.ViewModel
             stagedProductList.ForEach(p => Products.Add(p));
         }
 
-        private void ApplyFilter()
-        {
-            if (searchByName == null) searchByName = "";
-            Products.Clear();
-            Task.Run(() => LoadProducts(searchByName));
-        }
+        //private void ApplyFilter()
+        //{
+        //    if (searchByName == null) searchByName = "";
+        //    Products.Clear();
+        //    Task.Run(() => LoadProducts(searchByName));
+        //}
 
         //public async Task AddAsync(Product product)
         //{
@@ -113,7 +131,14 @@ namespace MarkIt.ViewModel
         //{
         //    await App.Current.MainPage.Navigation.PushAsync(
         //        new View.Product.NewProductView() { BindingContext = App.ProductVM });
-        //}        
+        //}     
+
+        public async void Search()
+        {
+            Products.Clear();
+            if (!string.IsNullOrWhiteSpace(searchByName)) 
+                await Task.Run(() => LoadProducts(searchByName));
+        }
 
 
         private async void OnQuit()
@@ -168,21 +193,5 @@ namespace MarkIt.ViewModel
     //    }
     //} 
 
-    //public class OnEditProductCMD : ICommand
-    //{
-    //    private ProductViewModel ProductVM;
-    //    public OnEditProductCMD(ProductViewModel paramVM)
-    //    {
-    //        ProductVM = paramVM;
-    //    }
-    //    public event EventHandler CanExecuteChanged;
-    //    public void EditarCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    //    public bool CanExecute(object parameter) => (parameter != null);
-    //    public void Execute(object parameter)
-    //    {
-    //        App.ProductVM.SelectedProduct = parameter as Product;
-    //        ProductVM.Edit();
-    //    }
-    //} 
 
 }
