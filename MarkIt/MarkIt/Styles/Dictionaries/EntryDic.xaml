@@ -6,7 +6,7 @@
     <Style x:Key="DefaultEntry" TargetType="Entry">
         <Setter Property="TextColor" Value="DarkGray" />
         <Setter Property="FontFamily" Value="Courier New" />
-        <Setter Property="FontSize" Value="Micro" />
+        <Setter Property="FontSize" Value="Medium" />
     </Style>
     
 </ResourceDictionary>

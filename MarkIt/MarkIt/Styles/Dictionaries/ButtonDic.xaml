@@ -4,9 +4,10 @@
                     x:Class="MarkIt.Styles.Dictionaries.ButtonDic ">
     
     <Style x:Key="DefaultButton" TargetType="Button">
-        <Setter Property="TextColor" Value="Black" />
-        <Setter Property="FontFamily" Value="Courier New" />
-        <Setter Property="FontSize" Value="Micro" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontFamily" Value="Oswald" />
+        <Setter Property="FontSize" Value="Small" />
+        <Setter Property="BackgroundColor" Value="CornflowerBlue"/>
     </Style>
     
 </ResourceDictionary>
