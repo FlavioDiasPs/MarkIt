@@ -21,8 +21,7 @@ namespace MarkIt.View.Product
         }
 
         private void OnPinCustomizado_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new View.MapaPinCustom());
+        {            
         }      
     }
 }
