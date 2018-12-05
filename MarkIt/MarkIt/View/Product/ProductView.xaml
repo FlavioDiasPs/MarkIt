@@ -1,55 +1,63 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MarkIt.View.Product.ProductView"
+             xmlns:local="clr-namespace:MarkIt.Styles.Dictionaries"             
+             xmlns:customTriggers="clr-namespace:MarkIt.Custom"
+             x:Class="MarkIt.View.Product.ProductView"             
              NavigationPage.HasBackButton="False"
              Title="Search Products" x:Name="pageProducts">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <local:LabelDic/>
+                <local:ButtonDic/>
+                <local:EntryDic/>
+                <local:GridDic/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid Padding="5" RowSpacing="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid Style="{Binding DefaultGrid}">
             <StackLayout x:Name="laySearch" Grid.Row="0" Padding="5">
                 <StackLayout Padding="5">
-
-                    <Button Text="Pin Customizado" Clicked="OnPinCustomizado_Clicked" />
-                    
-                    <Button Text="Scan barcode" Command="{Binding ScanBarcodeCommand}"   />
+                    <Button Text="Scan barcode" Command="{Binding ScanBarcodeCommand}" Style="{DynamicResource DefaultButton}"  />
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Padding="5">
+                <Grid BackgroundColor="#007aff" IsClippedToBounds="false">
                     <SearchBar  x:Name="SearchByBarCode" IsVisible="False" Placeholder="Search by BarCode" Text="{Binding SearchByBarCode}" />
-                    <Entry x:Name="SearchByName" Placeholder="Search by name" Text="{Binding SearchByName}" HorizontalOptions="FillAndExpand" WidthRequest="250"  />
-                    <Button Text="Search" Command="{Binding SearchCommand}"  />
-                </StackLayout>
+                    <Entry x:Name="SearchByName" Placeholder="Search by name" Text="{Binding SearchByName}" HorizontalOptions="StartAndExpand" WidthRequest="70" Style="{DynamicResource DefaultEntry}"  />
+                    <Button Text="Search" HorizontalOptions="EndAndExpand" Command="{Binding SearchCommand}" Style="{DynamicResource DefaultButton}"  />
+                </Grid>
             </StackLayout>
             <StackLayout x:Name="layList" Grid.Row="1" Padding="7">
                 <ListView x:Name="lstProduct" ItemsSource="{Binding Products}"                          
-                          SelectedItem="{Binding SelectedProduct}" RowHeight="100">
+                          SelectedItem="{Binding SelectedProduct}" RowHeight="100" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Vertical" Padding="5,0,5,0">
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Product: " TextColor="ForestGreen" Font="15" />
-                                        <Label Text="{Binding Name}" Font="15" />
+                                        <Label Text="Product: " Style="{DynamicResource DefaultLabel}" />
+                                        <Label Text="{Binding Name}" Style="{DynamicResource ProductLabel}"/>
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Best price: " TextColor="ForestGreen" Font="15" />
-                                        <Label Text="{Binding BestPrice, StringFormat='R$ {0:0.00}'}" Font="15" />
+                                        <Label Text="Best price: " Style="{DynamicResource DefaultLabel}" />
+                                        <Label Text="{Binding BestPrice, StringFormat='R$ {0:0.00}'}" Style="{DynamicResource MoneyLabel}"/>
                                     </StackLayout>
                                     <Grid Padding="2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="{Binding BestPriceMarket}" Font="12" HorizontalOptions="Start" />
                                     </Grid>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.Triggers>
+                        <EventTrigger Event="ItemSelected">
+                            <customTriggers:DeselectListViewItemAction></customTriggers:DeselectListViewItemAction>
+                        </EventTrigger>
+                    </ListView.Triggers>
                 </ListView>
             </StackLayout>
         </Grid>

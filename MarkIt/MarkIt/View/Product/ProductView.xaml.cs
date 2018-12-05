@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,13 +17,11 @@ namespace MarkIt.View.Product
 
         protected override void OnAppearing()
         {
-            base.OnAppearing();
+            base.OnAppearing();          
         }
-
 
         private void OnPinCustomizado_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new View.MapaPinCustom());
-        }
+        {            
+        }      
     }
 }

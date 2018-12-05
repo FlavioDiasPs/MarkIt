@@ -26,9 +26,6 @@
     <EmbeddedResource Update="View\AboutView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="View\MapaPinCustom.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="View\Menu\HomeView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -49,6 +46,9 @@
   <ItemGroup>
     <Compile Update="Styles\Dictionaries\EntryDic.xaml.cs">
       <DependentUpon>EntryDic.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Styles\Dictionaries\GridDic.xaml.cs">
+      <DependentUpon>GridDic.xaml</DependentUpon>
     </Compile>
     <Compile Update="Styles\Dictionaries\LabelDic.xaml.cs">
       <DependentUpon>LabelDic.xaml</DependentUpon>
