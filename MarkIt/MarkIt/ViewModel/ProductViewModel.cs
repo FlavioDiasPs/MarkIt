@@ -19,21 +19,15 @@ namespace MarkIt.ViewModel
 {
     public class ProductViewModel : INotifyPropertyChanged
     {
-        public Product ProductModel { get; set; }
-
         private Product selectedProduct;
         public Product SelectedProduct
         {
             get { return selectedProduct; }
             set
             {
-                selectedProduct = value as Product;
+                selectedProduct = value;
                 EventPropertyChanged();
-                if (value != null)
-                {
-                    ProductModel = value;
-                    ProductDetail(value);
-                }
+                if (value != null) ProductDetail(value);                
             }
         }
 
@@ -76,7 +70,7 @@ namespace MarkIt.ViewModel
             ScanBarcodeCommand = new Command(ScanBarcode);
 
             stagedProductList = new List<Product>();
-            Task.Run(() => LoadPopularProducts());
+            Task.Run(async () => await LoadPopularProducts()).GetAwaiter().GetResult();
         }
         
         public async Task LoadPopularProducts()
@@ -84,9 +78,9 @@ namespace MarkIt.ViewModel
             stagedProductList = await ProductRepository.GetProductsAsync();
             stagedProductList.ForEach(p => Products.Add(p));
         }
-        public async Task LoadProducts(string keyword)
+        public async Task GetProductByNameAsync(string name)
         {
-            stagedProductList = await ProductRepository.GetProductByNameAsync(keyword);
+            stagedProductList = await ProductRepository.GetProductByNameAsync(name);
             stagedProductList.ForEach(p => Products.Add(p));
         }
 
@@ -112,8 +106,7 @@ namespace MarkIt.ViewModel
         public async void Search()
         {
             Products.Clear();
-            if (!string.IsNullOrWhiteSpace(searchByName)) 
-                await LoadProducts(searchByName);
+            if (!string.IsNullOrWhiteSpace(searchByName)) await GetProductByNameAsync(searchByName);
         }
         private async void OnQuit()
         {

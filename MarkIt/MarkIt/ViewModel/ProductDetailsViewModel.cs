@@ -33,6 +33,7 @@ namespace MarkIt.ViewModel
         public async Task LoadSelectedProduct()
         {
             Prices = await PriceRepository.GetProductDetailsAsync(SelectedProduct.Id);
+            SelectedProduct.Prices.Clear();
             SelectedProduct.Prices.AddRange(Prices);
         }
 

@@ -50,6 +50,9 @@
     <Compile Update="Styles\Dictionaries\EntryDic.xaml.cs">
       <DependentUpon>EntryDic.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Styles\Dictionaries\GridDic.xaml.cs">
+      <DependentUpon>GridDic.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Styles\Dictionaries\LabelDic.xaml.cs">
       <DependentUpon>LabelDic.xaml</DependentUpon>
     </Compile>

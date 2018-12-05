@@ -3,7 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     x:Class="MarkIt.Styles.Dictionaries.EntryDic ">
     
-    <Style x:Key="DefaultEntry" TargetType="Button">
+    <Style x:Key="DefaultEntry" TargetType="Entry">
         <Setter Property="TextColor" Value="Black" />
         <Setter Property="FontFamily" Value="Courier New" />
         <Setter Property="FontSize" Value="10" />

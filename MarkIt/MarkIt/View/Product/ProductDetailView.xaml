@@ -7,7 +7,6 @@
              Title="Prices">
 
     <ContentPage.Content>
-        
 
         <StackLayout x:Name="rootProduct" Padding="7" BindingContext="{Binding SelectedProduct}">
             <Label Text="{Binding Name}" />
@@ -34,10 +33,6 @@
                 </ListView.ItemTemplate>
             </ListView>
             <local:CustomMapPin  x:Name="MapProduct" MapType="Street" />
-
-
-
         </StackLayout>
-
     </ContentPage.Content>
 </ContentPage>

@@ -6,7 +6,7 @@
     <Style x:Key="DefaultButton" TargetType="Button">
         <Setter Property="TextColor" Value="Black" />
         <Setter Property="FontFamily" Value="Courier New" />
-        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontSize" Value="Medium" />
     </Style>
     
 </ResourceDictionary>
