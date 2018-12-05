@@ -55,6 +55,7 @@ namespace MarkIt.ViewModel
 
                 searchByBarCode = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchByBarCode)));
+                SearchCode();
             }
         }
 
@@ -83,13 +84,18 @@ namespace MarkIt.ViewModel
             stagedProductList = await ProductRepository.GetProductByNameAsync(name);
             stagedProductList.ForEach(p => Products.Add(p));
         }
+        public async Task GetProductByBarCodeAsync(string BarCode)
+        {
+            stagedProductList = await ProductRepository.GetProductByBarCodeAsync(BarCode);
+            stagedProductList.ForEach(p => Products.Add(p));
+        }
 
         private void ProductDetail(Product value)
         {
             App.ProductDetailsVM.SelectedProduct = value;
             App.Current.MainPage.Navigation.PushAsync(new View.Product.ProductDetailView() { BindingContext = App.ProductDetailsVM });
         }
-        private void ScanBarcode(object obj)
+        private void ScanBarcode()
         {
             var scan = new ZXingScannerPage();
             App.Current.MainPage.Navigation.PushAsync(scan);
@@ -101,7 +107,13 @@ namespace MarkIt.ViewModel
                     SearchByBarCode = result.Text;
                 });
             };
-        }                  
+        }
+
+        public async void SearchCode()
+        {
+            Products.Clear();
+            if (!string.IsNullOrWhiteSpace(searchByBarCode)) await GetProductByBarCodeAsync(searchByBarCode);
+        }
 
         public async void Search()
         {
