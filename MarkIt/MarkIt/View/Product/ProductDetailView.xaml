@@ -2,37 +2,33 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MarkIt.View.Product.ProductDetailView"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:local="clr-namespace:MarkIt.App_Code"
              Title="Prices">
 
     <ContentPage.Content>
+        
 
         <StackLayout x:Name="rootProduct" Padding="7" BindingContext="{Binding SelectedProduct}">
-            <Label Text="{Binding Name}" />
-            <Label Text="{Binding Barcode}" />
-            <Label Text="{Binding BestPrice, StringFormat='R$ {0:0.00}'}" />
-            <ListView x:Name="lstPrices" ItemsSource="{Binding Prices}" SelectedItem="{Binding SelectdMarket}" RowHeight="100">
+            <Label Text="{Binding Name}" Font="20" />
+            <Label Text="{Binding BestPrice, StringFormat='R$ {0:0.00}'}" Font="20"  />
+            <!--<ListView x:Name="lstPrices" ItemsSource="{Binding Prices}" SelectedItem="{Binding SelectdMarket}" RowHeight="100">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="5,0,5,0">
+                                <Label Text="{Binding Market.Name}" Font="15" />
                                 <Label Text="{Binding Value, StringFormat='R$ {0:0.00}'}" Font="15" />
-                                <Label Text="{Binding Market.Longitude}" />
-                                <Label Text="{Binding Market.Latitude}" />
-                                <Grid Padding="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Text="{Binding Market.Name}" Font="12" HorizontalOptions="Start" />
-                                </Grid>
+                                <Label Text="{Binding Market.Address}{Binding Market.AddressNumber} " Font="11" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
-            <local:CustomMapPin  x:Name="MapProduct" MapType="Street" />
+            </ListView>-->
+
+            <StackLayout VerticalOptions="FillAndExpand">
+                <local:CustomMapPin VerticalOptions="FillAndExpand"  x:Name="MapProduct" MapType="Street" />
+            </StackLayout>
         </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>

@@ -3,11 +3,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-    <ImageView
+    <!--<ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/fiapschool" />
+        android:src="@drawable/fiapschool" />-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,9 +27,11 @@
             android:text="InfoWindowSubtitle"
             android:textColor="@android:color/black" />
     </LinearLayout>
+	<!--
     <ImageButton
         android:id="@+id/InfoWindowButton"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:src="@drawable/infoFiap" />
+	-->
 </LinearLayout>
