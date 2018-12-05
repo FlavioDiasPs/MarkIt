@@ -1,13 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
              x:Class="MarkIt.View.AboutView">
-    
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout x:Name="layList" Orientation="Vertical">
+            <Frame BorderColor="White" BackgroundColor="WhiteSmoke" Margin="5" Padding="0, 0, 2, 2">
+                <StackLayout Orientation="Vertical" BackgroundColor="White" Margin="2" Padding="7">
+                    <Label Text="MEET OUR SQUAD!" Font="20" TextColor="CornflowerBlue"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Image Source="flavio.jpg" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                        <Label Text="Meet Flavio Pêgas: "/>
+                        <Label Text="Role: Data Engineer at ClearSale"/>
+                    </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                        <Image Source="" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                        <Label Text="Meet Jonas Saito: "/>
+                        <Label Text="Role: Developer at ClearSale"/>
+                    </StackLayout>
+                    </StackLayout>
+                </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
