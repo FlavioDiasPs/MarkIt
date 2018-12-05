@@ -9,7 +9,7 @@ namespace MarkIt.ViewModel
 {
     public class ProductDetailsViewModel : INotifyPropertyChanged
     {
-        public IEnumerable<Price> Prices { get; set; }
+        public static IEnumerable<Price> Prices { get; set; }
 
         private Product selectedProduct;
         public Product SelectedProduct

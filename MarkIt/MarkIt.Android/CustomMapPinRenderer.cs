@@ -17,7 +17,7 @@ namespace MarkIt.Droid
 {
     class CustomMapPinRenderer : MapRenderer, GoogleMap.IInfoWindowAdapter
     {
-        List<CustomPin> PinCustomizados;
+        List<CustomPin> CustomPins;
 
         public CustomMapPinRenderer(Android.Content.Context context) : base(context)
         {
@@ -35,7 +35,7 @@ namespace MarkIt.Droid
             if (e.NewElement != null)
             {
                 var formsMap = (CustomMapPin)e.NewElement;
-                PinCustomizados = formsMap.PinCustomizados;
+                CustomPins = formsMap.PinCustomizados;
                 Control.GetMapAsync(this);
             }
         }
@@ -54,7 +54,7 @@ namespace MarkIt.Droid
             marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
             marker.SetTitle(pin.Label);
             marker.SetSnippet(pin.Address);
-            marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pinFiap));
+            marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pinMarkIt));
             return marker;
         }
 
@@ -122,7 +122,7 @@ namespace MarkIt.Droid
         CustomPin GetPinCustomizado(Marker annotation)
         {
             var position = new Position(annotation.Position.Latitude, annotation.Position.Longitude);
-            foreach (var pin in PinCustomizados)
+            foreach (var pin in CustomPins)
             {
                 if (pin.Position == position)
                 {

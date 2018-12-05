@@ -19,17 +19,18 @@ namespace MarkIt.Infra.Data.Repositories
         {
             return _connection.Insert<Price>(price);
         }
-        
+
         public IEnumerable<Price> GetPricesByProductBarCode(string productBarCode)
         {
-            string procedure = "SelectProductByBarCode";            
+            string procedure = "SelectProductByBarCode";
 
             var result = _connection.Query<Price, int, int, Price>(
-                sql:procedure, 
-                param:new { productBarCode }, 
-                transaction:_transaction, 
-                commandType: CommandType.StoredProcedure, 
-                map:(price, product, market) => {
+                sql: procedure,
+                param: new { productBarCode },
+                transaction: _transaction,
+                commandType: CommandType.StoredProcedure,
+                map: (price, product, market) =>
+                {
                     price.Product = new Product() { Id = product, Barcode = productBarCode };
                     price.Market = new Market() { Id = market };
                     return price;
@@ -47,8 +48,23 @@ namespace MarkIt.Infra.Data.Repositories
               param: new { productid },
               transaction: _transaction,
               commandType: CommandType.StoredProcedure,
-              map: (price, market) => {
-                  price.Market = new Market() { Id = market.Id, Name = market.Name, Latitude = market.Latitude, Longitude = market.Longitude };
+              map: (price, market) =>
+              {
+                  price.Market = new Market()
+                  {
+                      Id = market.Id,
+                      Name = market.Name,
+                      Latitude = market.Latitude,
+                      Longitude = market.Longitude,
+                      Address = market.Address,
+                      AddressNumber = market.AddressNumber,
+                      District = market.District,
+                      ZipCode = market.ZipCode,
+                      City = market.City,
+                      State = market.State,
+                      Country = market.Country,
+                      Website = market.Website
+                  };
                   return price;
               });
 
