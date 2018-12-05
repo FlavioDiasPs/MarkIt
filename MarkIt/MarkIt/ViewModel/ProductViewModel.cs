@@ -37,11 +37,6 @@ namespace MarkIt.ViewModel
             }
         }
 
-        private void ProductDetail(Product value)
-        {
-
-            App.Current.MainPage.Navigation.PushAsync( new View.Product.ProductDetailView() { BindingContext = App.ProductVM });
-        }
 
         private string searchByName;
         public string SearchByName
@@ -66,7 +61,6 @@ namespace MarkIt.ViewModel
 
                 searchByBarCode = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchByBarCode)));
-                Search(value);
             }
         }
 
@@ -78,7 +72,6 @@ namespace MarkIt.ViewModel
 
         public ProductViewModel()
         {
-            SearchCommand = new Command(() => { Search(SearchByName); });
             ScanBarcodeCommand = new Command(ScanBarcode);
 
             stagedProductList = new List<Product>();
@@ -114,12 +107,7 @@ namespace MarkIt.ViewModel
                 });
             };
         }
-        public async void Search(string value)
-        {
-            stagedProductList = await ProductRepository.GetProductsByKeywordAsync(keyword);
-            stagedProductList.ForEach(p => Products.Add(p));
-        }
-
+       
         //private void ApplyFilter()
         //{
         //    if (searchByName == null) searchByName = "";
