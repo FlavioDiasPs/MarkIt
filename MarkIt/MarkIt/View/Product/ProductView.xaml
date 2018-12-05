@@ -17,41 +17,40 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid Style="{Binding DefaultGrid}">
+        <Grid Style="{Binding DefaultGrid}" Padding="0" VerticalOptions="Fill">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <StackLayout x:Name="laySearch" Grid.Row="0" Padding="5">
-                <StackLayout Padding="5">
+                <StackLayout Padding="3">
                     <Button Text="Scan barcode" Command="{Binding ScanBarcodeCommand}" Style="{DynamicResource DefaultButton}"  />
                 </StackLayout>
-                <Grid BackgroundColor="#007aff" IsClippedToBounds="false">
+                <StackLayout >
                     <SearchBar  x:Name="SearchByBarCode" IsVisible="False" Placeholder="Search by BarCode" Text="{Binding SearchByBarCode}" />
-                    <Entry x:Name="SearchByName" Placeholder="Search by name" Text="{Binding SearchByName}" HorizontalOptions="StartAndExpand" WidthRequest="70" Style="{DynamicResource DefaultEntry}"  />
-                    <Button Text="Search" HorizontalOptions="EndAndExpand" Command="{Binding SearchCommand}" Style="{DynamicResource DefaultButton}"  />
-                </Grid>
+                    <Entry x:Name="SearchByName" Placeholder="Search by name" Text="{Binding SearchByName}" HorizontalOptions="FillAndExpand" MinimumWidthRequest="150" Style="{DynamicResource DefaultEntry}"  />
+                    <Button Text="Search" Grid.Column="2" HorizontalOptions="EndAndExpand" FlowDirection="RightToLeft" Command="{Binding SearchCommand}" Style="{DynamicResource DefaultButton}"  />
+                </StackLayout>
             </StackLayout>
-            <StackLayout x:Name="layList" Grid.Row="1" Padding="7">
-                <ListView x:Name="lstProduct" ItemsSource="{Binding Products}"                          
-                          SelectedItem="{Binding SelectedProduct}" RowHeight="100" >
+            <StackLayout x:Name="layList" Grid.Row="1">
+                <ListView x:Name="lstProduct" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Vertical" Padding="5,0,5,0">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="Product: " Style="{DynamicResource DefaultLabel}" />
-                                        <Label Text="{Binding Name}" Style="{DynamicResource ProductLabel}"/>
+                                <Frame BorderColor="WhiteSmoke" BackgroundColor="DarkGray" Padding="50" Margin="3">
+                                    <StackLayout Orientation="Vertical" BackgroundColor="White" Padding="10, 20, 10, 0">
+                                        <StackLayout Orientation="Horizontal" Grid.Row="1">
+                                                <Label Text="Product: " Style="{DynamicResource TitleLabel}"/>
+                                                <Label Text="{Binding Name}" Style="{DynamicResource ProductLabel}"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal"  Grid.Row="2">
+                                            <Label Text="Best price: " Style="{DynamicResource TitleLabel}"/>
+                                            <Label Text="{Binding BestPrice, StringFormat='R$ {0:0.00}'}" Style="{DynamicResource MoneyLabel}"/>
+                                        </StackLayout>
                                     </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="Best price: " Style="{DynamicResource DefaultLabel}" />
-                                        <Label Text="{Binding BestPrice, StringFormat='R$ {0:0.00}'}" Style="{DynamicResource MoneyLabel}"/>
-                                    </StackLayout>
-                                    <Grid Padding="2">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                    </Grid>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
+                                </Frame>
+                            </ViewCell >
+                        </DataTemplate >
                     </ListView.ItemTemplate>
                     <ListView.Triggers>
                         <EventTrigger Event="ItemSelected">

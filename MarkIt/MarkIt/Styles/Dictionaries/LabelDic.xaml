@@ -7,17 +7,17 @@
     <Style x:Key="TitleLabel" TargetType="Label">
         <Setter Property="TextColor" Value="Black" />
         <Setter Property="FontFamily" Value="Courier New" />
-        <Setter Property="FontSize" Value="Micro" />
+        <Setter Property="FontSize" Value="Small" />
     </Style>
     <Style x:Key="MoneyLabel" TargetType="Label">
         <Setter Property="TextColor" Value="ForestGreen" />
         <Setter Property="FontFamily" Value="Courier New" />
-        <Setter Property="FontSize" Value="Micro" />
+        <Setter Property="FontSize" Value="Small" />
     </Style>
     <Style x:Key="ProductLabel" TargetType="Label">
         <Setter Property="TextColor" Value="CornflowerBlue" />
         <Setter Property="FontFamily" Value="Courier New" />
-        <Setter Property="FontSize" Value="Micro" />
+        <Setter Property="FontSize" Value="Small" />
     </Style>
 
 </ResourceDictionary>
