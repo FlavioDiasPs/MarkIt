@@ -1,4 +1,5 @@
-﻿using MarkIt.Model;
+﻿using MarkIt.App_Code;
+using MarkIt.Model;
 using MarkIt.Model.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 using ZXing.Net.Mobile.Forms;
 
 namespace MarkIt.ViewModel
@@ -39,6 +41,7 @@ namespace MarkIt.ViewModel
         {
 
             App.Current.MainPage.Navigation.PushAsync( new View.Product.ProductDetailView() { BindingContext = App.ProductVM });
+
         }
 
         private string searchByName;
@@ -133,11 +136,11 @@ namespace MarkIt.ViewModel
         //        new View.Product.NewProductView() { BindingContext = App.ProductVM });
         //}     
 
-        public async void Search()
+        public void Search()
         {
             Products.Clear();
             if (!string.IsNullOrWhiteSpace(searchByName)) 
-                await Task.Run(() => LoadProducts(searchByName));
+                Task.Run(() => LoadProducts(searchByName)).GetAwaiter().GetResult();
         }
 
 

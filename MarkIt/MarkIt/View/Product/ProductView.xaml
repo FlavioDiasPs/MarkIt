@@ -17,6 +17,9 @@
             </Grid.RowDefinitions>
             <StackLayout x:Name="laySearch" Grid.Row="0" Padding="5">
                 <StackLayout Padding="5">
+
+                    <Button Text="Pin Customizado" Clicked="OnPinCustomizado_Clicked" />
+                    
                     <Button Text="Scan barcode" Command="{Binding ScanBarcodeCommand}"   />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Padding="5">

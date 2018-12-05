@@ -1,5 +1,4 @@
 ﻿using MarkIt.App_Code;
-using MarkIt.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +9,17 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
-namespace MarkIt.View.Product
+namespace MarkIt.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ProductDetailView : ContentPage
-    {
-        public static ProductViewModel ProductVM { get; set; }
-        public ProductDetailView ()
+	public partial class MapaPinCustom : ContentPage
+	{
+		public MapaPinCustom ()
 		{
-			InitializeComponent();
+			InitializeComponent ();
 
-            BindingContext = new ProductDetailViewModel();
 
-            //MapProduct = ProductDetailViewModel.Map;
+
 
             var pin = new CustomPin
             {
@@ -33,21 +30,15 @@ namespace MarkIt.View.Product
                 Id = "Fiap",
                 Localizacao = "https://www.fiap.com.br/"
             };
-
-
-            MapProduct.PinCustomizados = new List<CustomPin> { pin };
-            MapProduct.Pins.Add(pin);
-
-
-
-            MapProduct.MoveToRegion(
+            
+            meuMapa.MoveToRegion(
                 MapSpan.FromCenterAndRadius(
                     new Position(-23.573783, -46.623438), Distance.FromMiles(1.0)));
 
+            meuMapa.PinCustomizados = new List<CustomPin> { pin };
+            meuMapa.Pins.Add(pin);
         }
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-        }
-    }
+
+
+	}
 }

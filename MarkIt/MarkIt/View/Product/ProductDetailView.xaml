@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MarkIt.View.Product.ProductDetailView"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:local="clr-namespace:MarkIt.App_Code"
              Title="Prices">
 
     <ContentPage.Content>
@@ -31,7 +33,11 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <local:CustomMapPin  x:Name="MapProduct" MapType="Street" />
+
+
+
         </StackLayout>
-        
+
     </ContentPage.Content>
 </ContentPage>
