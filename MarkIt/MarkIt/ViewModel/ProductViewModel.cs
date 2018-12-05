@@ -41,7 +41,6 @@ namespace MarkIt.ViewModel
         {
 
             App.Current.MainPage.Navigation.PushAsync( new View.Product.ProductDetailView() { BindingContext = App.ProductVM });
-
         }
 
         private string searchByName;
@@ -54,36 +53,54 @@ namespace MarkIt.ViewModel
 
                 searchByName = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchByName)));
-                //ApplyFilter();
+            }
+        }
+
+        private string searchByBarCode;
+        public string SearchByBarCode
+        {
+            get { return searchByBarCode; }
+            set
+            {
+                if (value == searchByBarCode) return;
+
+                searchByBarCode = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchByBarCode)));
+                Search(value);
             }
         }
 
         public List<Product> stagedProductList;
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
 
-
         public Command SearchCommand { get; }
         public Command ScanBarcodeCommand { get; }
-        //public OnAddProductCMD OnAddProductCMD { get; }
-        //public OnEditProductCMD OnEditProductCMD { get; }        
-        //public ICommand OnNewProductCMD { get; private set; }
-        //public ICommand OnQuitCMD { get; private set; }
-
 
         public ProductViewModel()
         {
-
-            SearchCommand = new Command(Search);
+            SearchCommand = new Command(() => { Search(SearchByName); });
             ScanBarcodeCommand = new Command(ScanBarcode);
-            //OnAddProductCMD = new OnAddProductCMD(this);
-            //OnEditProductCMD = new OnEditProductCMD(this);
-            //OnQuitCMD = new Command(OnQuit);
-            //OnNewProductCMD = new Command(OnNewProduct);
 
             stagedProductList = new List<Product>();
             Task.Run(() => LoadPopularProducts());
         }
+        
+        public async Task LoadPopularProducts()
+        {
+            stagedProductList = await ProductRepository.GetProductsAsync();
+            stagedProductList.ForEach(p => Products.Add(p));
+        }
+        public async Task LoadProducts(string keyword)
+        {
+            stagedProductList = await ProductRepository.GetProductByNameAsync(keyword);
+            stagedProductList.ForEach(p => Products.Add(p));
+        }
 
+        private void ProductDetail(Product value)
+        {
+            App.ProductDetailsVM.SelectedProduct = value;
+            App.Current.MainPage.Navigation.PushAsync(new View.Product.ProductDetailView() { BindingContext = App.ProductDetailsVM });
+        }
         private void ScanBarcode(object obj)
         {
             var scan = new ZXingScannerPage();
@@ -93,18 +110,11 @@ namespace MarkIt.ViewModel
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await App.Current.MainPage.Navigation.PopAsync();
-                    SearchByName = result.Text;
+                    SearchByBarCode = result.Text;
                 });
             };
         }
-
-        public async Task LoadPopularProducts()
-        {
-            stagedProductList = await ProductRepository.GetProductsAsync();
-            stagedProductList.ForEach(p => Products.Add(p));
-        }
-
-        public async Task LoadProducts(string keyword)
+        public async void Search(string value)
         {
             stagedProductList = await ProductRepository.GetProductsByKeywordAsync(keyword);
             stagedProductList.ForEach(p => Products.Add(p));
@@ -136,24 +146,16 @@ namespace MarkIt.ViewModel
         //        new View.Product.NewProductView() { BindingContext = App.ProductVM });
         //}     
 
-        public void Search()
+        public async void Search()
         {
             Products.Clear();
             if (!string.IsNullOrWhiteSpace(searchByName)) 
-                Task.Run(() => LoadProducts(searchByName)).GetAwaiter().GetResult();
+                await Task.Run(() => LoadProducts(searchByName));
         }
-
-
         private async void OnQuit()
         {
             await App.Current.MainPage.Navigation.PopAsync();
-        }
-
-        //private void OnNewProduct()
-        //{
-        //    App.ProductVM.SelectedProduct = new Product();
-        //    App.Current.MainPage.Navigation.PushAsync(new View.Product.NewProductView() { BindingContext = App.ProductVM });
-        //}
+        }        
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void EventPropertyChanged([CallerMemberName] string propertyName = null)
@@ -161,40 +163,4 @@ namespace MarkIt.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-
-    //public class OnAddProductCMD : ICommand
-    //{
-    //    private ProductViewModel ProductVM;
-    //    public OnAddProductCMD(ProductViewModel paramVM)
-    //    {
-    //        ProductVM = paramVM;
-    //    }
-    //    public event EventHandler CanExecuteChanged;
-    //    public void AdicionarCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    //    public bool CanExecute(object parameter) => true;
-    //    public void Execute(object parameter)
-    //    {
-    //        //ProductVM.AddAsync(parameter as Product).GetAwaiter().GetResult();
-    //    }
-    //}
-
-    //public class OnEditProductCMD : ICommand
-    //{
-    //    private ProductViewModel ProductVM;
-    //    public OnEditProductCMD(ProductViewModel paramVM)
-    //    {
-    //        ProductVM = paramVM;
-    //    }
-    //    public event EventHandler CanExecuteChanged;
-    //    public void EditarCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-    //    public bool CanExecute(object parameter) => (parameter != null);
-    //    public void Execute(object parameter)
-    //    {
-    //        App.ProductVM.SelectedProduct = parameter as Product;
-    //        ProductVM.Edit();
-    //    }
-    //} 
-
-
 }

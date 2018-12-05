@@ -9,6 +9,7 @@ namespace MarkIt
     public partial class App : Application
     {
         public static ProductViewModel ProductVM { get; set; }
+        public static ProductDetailsViewModel ProductDetailsVM { get; set; }
 
         public App()
         {
@@ -26,6 +27,7 @@ namespace MarkIt
         private void InitializeApplication()
         {
             if (ProductVM == null) ProductVM = new ProductViewModel();
+            if (ProductDetailsVM == null) ProductDetailsVM = new ProductDetailsViewModel();
         }
 
         protected override void OnStart()

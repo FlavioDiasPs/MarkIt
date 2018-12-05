@@ -11,31 +11,29 @@ namespace MarkIt.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : Base.ControllerBase
-    {
-        private readonly IMarketService _marketService;
+    {        
         private readonly IProductService _productService;
         private readonly IPriceService _priceService;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;                  
 
-        public ProductController(IUnitOfWorkFactory unitOfWorkFactory, IMarketService marketService, IProductService productService, IPriceService priceService) : base(unitOfWorkFactory)
-        {
-            _marketService = marketService;
+        public ProductController(IUnitOfWorkFactory unitOfWorkFactory, IProductService productService, IPriceService priceService) : base(unitOfWorkFactory)
+        {            
             _productService = productService;
             _priceService = priceService;
             _unitOfWorkFactory = unitOfWorkFactory;                        
         }
 
-        [HttpGet("{productBarCode}")]
-        public IActionResult GetPriceByProductBarCode(string productBarCode)
+        [HttpGet("BarCode/{barcode}")]
+        public IActionResult GetPriceByProductBarCode(string barcode)
         {
-            var result = _priceService.GetPricesByProductBarCode(productBarCode);
+            var result = _productService.GetByBarcode(barcode);
 
-            if (result is null) return NotFound(productBarCode);
+            if (result is null) return NotFound(barcode);
 
             return Ok(result);
         }
 
-        [HttpGet("name/{name}")]
+        [HttpGet("Name/{name}")]
         public IActionResult GetProductByName(string name)
         {
             var result = _productService.GetByName(name);
@@ -43,39 +41,16 @@ namespace MarkIt.Api.Controllers
             if (result is null) return NotFound(name);
 
             return Ok(result);
-        }
+        }        
 
-        [HttpPost()]
-        public int AddRandomProduct()
+        [HttpGet]
+        public IActionResult GetRelevantProducts()
         {
-            Price price = new Price();
-            //price.Valor = Convert.ToDecimal(new Random(12332).NextDouble());
+            var result = _productService.GetRelevantProducts();
 
-            Product product = new Product(){
-                Name = new Random(12332).NextDouble().ToString()
-            };
+            if (result is null) return NotFound();
 
-            _productService.Add(product);
-
-            return StatusCodes.Status200OK;
+            return Ok(result);
         }
-
-        [HttpDelete]
-        public int DeleteProductById([FromBody] Product product)
-        {
-            _productService.Remove(product);            
-
-            return StatusCodes.Status200OK;
-        }
-
-        //[HttpGet("{id}")]
-        //public IActionResult GetLastProduct( int id)
-        //{
-        //    var result = _productService.GetById(id);
-
-        //    if (result is null) return NotFound(id);
-            
-        //    return Ok(result);                                
-        //}
     }
 }

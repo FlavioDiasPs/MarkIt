@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
@@ -7,25 +8,18 @@ namespace MarkIt.Model.Repositories
 {
     public static class PriceRepository
     {
-        private static List<Price> prices;
-        public static async Task<List<Price>> GetProductsAsync()
+        public static async Task<IEnumerable<Price>> GetProductDetailsAsync(int id)
         {
-            if (prices != null) return prices;
+            IEnumerable<Price> prices = null;
 
-            var httpRequest = new HttpClient();
-            var stream = await httpRequest.GetStreamAsync("http://fiapmarkeitapiteste.azurewebsites.net/api/price");
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"https://markitapi.azurewebsites.net/api/price/productid/{id}");
 
-            var priceSerializer = new DataContractJsonSerializer(typeof(List<Product>));
-            prices = (List<Price>)priceSerializer.ReadObject(stream);
-            return prices;
-        }
-        public static async Task<List<Price>> GetPricesByProductAsync(string id)
-        {
-            var httpRequest = new HttpClient();
-            var stream = await httpRequest.GetStreamAsync($"http://fiapmarkeitapiteste.azurewebsites.net/api/price/getbyproduct/{id}");
+                if (response.IsSuccessStatusCode)
+                    prices = JsonConvert.DeserializeObject<IEnumerable<Price>>(response.Content.ReadAsStringAsync().Result);
+            }
 
-            var productSerializer = new DataContractJsonSerializer(typeof(List<Price>));
-            prices = (List<Price>)productSerializer.ReadObject(stream);
             return prices;
         }
     }
