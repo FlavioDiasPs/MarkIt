@@ -18,12 +18,7 @@ namespace MarkIt
             
             MainPage = new NavigationPage(new View.MainPage());          
         }
-
-        //private void InitializeApplication()
-        //{
-        //    if (AlunoVM == null) AlunoVM = new AlunoViewModel();
-        //    if (UsuarioVM == null) UsuarioVM = new UsuarioViewModel();
-        //}
+    
         private void InitializeApplication()
         {
             if (ProductVM == null) ProductVM = new ProductViewModel();

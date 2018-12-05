@@ -20,7 +20,7 @@ namespace MarkIt.View.Product
 		{
 			InitializeComponent();
 
-            BindingContext = new ProductDetailViewModel();
+            BindingContext = new ProductDetailsViewModel();
 
             //MapProduct = ProductDetailViewModel.Map;
 

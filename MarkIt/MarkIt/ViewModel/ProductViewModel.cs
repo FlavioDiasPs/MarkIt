@@ -72,6 +72,7 @@ namespace MarkIt.ViewModel
 
         public ProductViewModel()
         {
+            SearchCommand = new Command(Search);
             ScanBarcodeCommand = new Command(ScanBarcode);
 
             stagedProductList = new List<Product>();
@@ -106,39 +107,13 @@ namespace MarkIt.ViewModel
                     SearchByBarCode = result.Text;
                 });
             };
-        }
-       
-        //private void ApplyFilter()
-        //{
-        //    if (searchByName == null) searchByName = "";
-        //    Products.Clear();
-        //    Task.Run(() => LoadProducts(searchByName));
-        //}
-
-        //public async Task AddAsync(Product product)
-        //{
-        //    await new TaskFactory().StartNew(() =>
-        //    {
-        //        if ((product == null) || (string.IsNullOrWhiteSpace(product.Name)))
-        //            App.Current.MainPage.DisplayAlert("Atenção", "O campo nome é obrigatório", "OK");
-        //        else if (ProductRepository.PostProductAsync(product).GetAwaiter().GetResult())
-        //            App.Current.MainPage.Navigation.PushAsync(new View.MainPage());
-        //        else
-        //            App.Current.MainPage.DisplayAlert("Falhou", "Desculpe, ocorreu um erro inesperado =(", "OK");
-        //    });                    
-        //}
-
-        //public async void Edit()
-        //{
-        //    await App.Current.MainPage.Navigation.PushAsync(
-        //        new View.Product.NewProductView() { BindingContext = App.ProductVM });
-        //}     
+        }                  
 
         public async void Search()
         {
             Products.Clear();
             if (!string.IsNullOrWhiteSpace(searchByName)) 
-                await Task.Run(() => LoadProducts(searchByName));
+                await LoadProducts(searchByName);
         }
         private async void OnQuit()
         {

@@ -20,14 +20,14 @@ namespace MarkIt.ViewModel
                 selectedProduct = value as Product;
 
                 if (value != null)
-                    Task.Run(() => { LoadSelectedProduct().GetAwaiter().GetResult(); });
-                
+                    Task.Run(async () => { await LoadSelectedProduct(); }).GetAwaiter().GetResult();
+
             }
         }
 
         public ProductDetailsViewModel()
-        {                        
-            Task.Run(() => LoadSelectedProduct());
+        {
+
         }
 
         public async Task LoadSelectedProduct()
