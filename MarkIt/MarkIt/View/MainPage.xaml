@@ -4,12 +4,7 @@
              xmlns:menu="clr-namespace:MarkIt.View.Menu"
              x:Class="MarkIt.View.MainPage"
              MasterBehavior="Popover">
-
-    <!--<MasterDetailPage.ToolbarItems>
-        <ToolbarItem Text="Something" x:Name="btnAddAluno" Command="{Binding OnSomethingCMD}" Order="Primary" Priority="1" />
-        <ToolbarItem Text="Otherthing" x:Name="btnSair" Command="{Binding OnOtherthingCMD}" Order="Secondary" Priority="1" />
-    </MasterDetailPage.ToolbarItems>-->
-
+    
     <MasterDetailPage.Master>
         <menu:MenuView x:Name="menuPage" />
     </MasterDetailPage.Master>

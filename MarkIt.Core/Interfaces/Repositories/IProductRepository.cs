@@ -7,5 +7,7 @@ namespace MarkIt.Core.Interfaces.Repositories
     public interface IPriceRepository : IRepositoryBase<Price>
     {
         IEnumerable<Price> GetPricesByProductBarCode(string productBarCode);
+        IEnumerable<Price> GetPricesByProductId(int id); 
+
     }    
 }

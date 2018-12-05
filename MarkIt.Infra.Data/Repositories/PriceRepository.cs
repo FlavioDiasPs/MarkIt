@@ -36,6 +36,23 @@ namespace MarkIt.Infra.Data.Repositories
                 }, splitOn: "Id, ProductId, MarketId");
 
             return result;
-        }        
+        }
+
+        public IEnumerable<Price> GetPricesByProductId(int productid)
+        {
+            string procedure = "SelectDetailsById";
+
+            var result = _connection.Query<Price, Market, Price>(
+              sql: procedure,
+              param: new { productid },
+              transaction: _transaction,
+              commandType: CommandType.StoredProcedure,
+              map: (price, market) => {
+                  price.Market = new Market() { Id = market.Id, Name = market.Name, Latitude = market.Latitude, Longitude = market.Longitude };
+                  return price;
+              });
+
+            return result;
+        }
     }
 }

@@ -17,20 +17,6 @@ namespace MarkIt.View.Product
         protected override void OnAppearing()
         {
             base.OnAppearing();
-        }
-
-        private async void Button_Clicked(object sender, EventArgs e)
-        {
-            var scan = new ZXingScannerPage();
-            await Navigation.PushAsync(scan);
-            scan.OnScanResult += (result) =>
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Navigation.PopAsync();
-                    SearchByName.Text = result.Text;
-                });
-            };
-        }
+        }       
     }
 }

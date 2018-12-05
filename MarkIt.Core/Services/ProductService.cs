@@ -29,9 +29,24 @@ namespace MarkIt.Core.Services
 
             return result;
         }
+                
         public IEnumerable<Product> GetByName(string name)
         {
             var result = _context.Product.GetByName(name);
+            _context.Commit();
+
+            return result;
+        }
+        public IEnumerable<Product> GetRelevantProducts()
+        {
+            var result = _context.Product.GetRelevantProducts();
+            _context.Commit();
+
+            return result;
+        }
+        public IEnumerable<Product> GetByBarcode(string barcode)
+        {
+            var result = _context.Product.GetByBarcode(barcode);
             _context.Commit();
 
             return result;

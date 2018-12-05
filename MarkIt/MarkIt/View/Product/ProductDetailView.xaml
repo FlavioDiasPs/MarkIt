@@ -5,13 +5,13 @@
              Title="Prices">
 
     <ContentPage.Content>
+        
+
         <StackLayout x:Name="rootProduct" Padding="7" BindingContext="{Binding SelectedProduct}">
             <Label Text="{Binding Name}" />
             <Label Text="{Binding Barcode}" />
             <Label Text="{Binding BestPrice, StringFormat='R$ {0:0.00}'}" />
-            <Label Text="{Binding BestPriceMarket}" />
-            <ListView x:Name="lstPrices" ItemsSource="{Binding Prices}"                          
-                          SelectedItem="{Binding SelectedMarket}" RowHeight="100">
+            <ListView x:Name="lstPrices" ItemsSource="{Binding Prices}" SelectedItem="{Binding SelectdMarket}" RowHeight="100">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

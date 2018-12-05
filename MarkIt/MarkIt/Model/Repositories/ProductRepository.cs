@@ -1,78 +1,53 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MarkIt.Model.Repositories
 {
     public static class ProductRepository
-    {
-        private static List<Product> products;
+    {                
         public static async Task<List<Product>> GetProductsAsync()
         {
-            if (products != null) return products;
+            List<Product> products = null;
 
-            var httpRequest = new HttpClient();
-            var stream = await httpRequest.GetStreamAsync("http://fiapmarkeitapiteste.azurewebsites.net/api/product");
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"https://markitapi.azurewebsites.net/api/product/");
 
-            var productSerializer = new DataContractJsonSerializer(typeof(List<Product>));
-            products = (List<Product>)productSerializer.ReadObject(stream);
+                if (response.IsSuccessStatusCode)
+                    products = JsonConvert.DeserializeObject<List<Product>>(response.Content.ReadAsStringAsync().Result);
+            }
+
             return products;
         }
-
-        public static async Task<List<Product>> GetProductsByKeywordAsync(string keyword)
+        public static async Task<List<Product>> GetProductByBarCodeAsync(string barcode)
         {
-            var httpRequest = new HttpClient();
-            var stream = await httpRequest.GetStreamAsync($"http://fiapmarkeitapiteste.azurewebsites.net/api/product/GetByKeyword/{keyword}");
+            var client = new HttpClient();
+            var response = await client.GetAsync($"https://markitapi.azurewebsites.net/api/product/barcode/{barcode}");
 
-            var productSerializer = new DataContractJsonSerializer(typeof(List<Product>));
-            products = (List<Product>)productSerializer.ReadObject(stream);
+            List<Product> products = null;
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                products = JsonConvert.DeserializeObject<List<Product>>(result);
+            }
+
             return products;
         }
-        public static async Task<List<Product>> GetProductsByIdAsync(string id)
+        public static async Task<List<Product>> GetProductByNameAsync(string name)
         {
-            var httpRequest = new HttpClient();
-            var stream = await httpRequest.GetStreamAsync($"http://fiapmarkeitapiteste.azurewebsites.net/api/product/{id}");
+            var client = new HttpClient();
+            var response = await client.GetAsync($"https://markitapi.azurewebsites.net/api/product/name/{name}");
 
-            var productSerializer = new DataContractJsonSerializer(typeof(List<Product>));
-            products = (List<Product>)productSerializer.ReadObject(stream);
+            List<Product> products = null;
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                products = JsonConvert.DeserializeObject<List<Product>>(result);
+            }
+
             return products;
         }
-        //public static async Task<bool> PostProductAsync(Product product)
-        //{
-        //    if (product == null) return false;
-
-        //    var httpRequest = new HttpClient();
-        //    httpRequest.BaseAddress = new Uri("http://apiaplicativofiap.azurewebsites.net/ ");
-
-        //    httpRequest.DefaultRequestHeaders.Accept.Clear();
-        //    httpRequest.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-        //    string profJson = Newtonsoft.Json.JsonConvert.SerializeObject(product);
-        //    var content = new StringContent(profJson, System.Text.Encoding.UTF8, "application/json");
-        //    var response = await httpRequest.PostAsync("api/professors", content);
-
-        //    if (response.IsSuccessStatusCode) return true;
-        //    return false;
-        //}
-
-        // public static async Task<bool>
-        //DeleteProfessorSqlAzureAsync(string profId)
-        // {
-        //     if (string.IsNullOrWhiteSpace(profId)) return false;
-
-        //     var httpRequest = new HttpClient();
-        //     httpRequest.BaseAddress = new Uri("http://apiaplicativofiap.azurewebsites.net/");
-
-        //     httpRequest.DefaultRequestHeaders.Accept.Clear();
-
-        //     httpRequest.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-        //     var response = httpRequest.DeleteAsync(string.Format("api/professors/{0}", profId)).Result;
-
-        //     if (response.IsSuccessStatusCode) return true;
-        //     return false;
-        // }
     }
 }

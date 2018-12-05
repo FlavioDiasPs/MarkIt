@@ -14,20 +14,44 @@ namespace MarkIt.Infra.Data.Repositories
     public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
         public ProductRepository(IDbContext context) : base(context)
-        {
+        {           
         }
 
+        public IEnumerable<Product> GetByBarcode(string barcode)
+        {
+            string procedure = "spr_SelectProductByBarcode";
+
+            var result = _connection.Query<Product>(
+                sql: procedure,
+                param: new { barcode },
+                transaction: _transaction,
+                commandType: CommandType.StoredProcedure);
+
+            return result;
+        }
         public IEnumerable<Product> GetByName(string name)
         {
             string procedure = "SelectProductByName";
 
             var result = _connection.Query<Product>(
-                sql: procedure, 
-                param: new { name }, 
-                commandType: CommandType.StoredProcedure, 
-                transaction: _transaction);
+                sql: procedure,
+                param: new { name },
+                transaction: _transaction,
+                commandType: CommandType.StoredProcedure);
 
             return result;
         }
+        public IEnumerable<Product> GetRelevantProducts()
+        {
+            string procedure = "SelectRelevantProducts";
+
+            var result = _connection.Query<Product>(
+                sql: procedure,              
+                commandType: CommandType.StoredProcedure,
+                transaction: _transaction);
+
+            return result;
+        }        
+
     }
 }
