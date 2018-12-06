@@ -7,19 +7,23 @@
         <StackLayout x:Name="layList" Orientation="Vertical">
             <Frame BorderColor="White" BackgroundColor="WhiteSmoke" Margin="5" Padding="0, 0, 2, 2">
                 <StackLayout Orientation="Vertical" BackgroundColor="White" Margin="2" Padding="7">
-                    <Label Text="MEET OUR SQUAD!" Font="20" TextColor="CornflowerBlue"/>
+                    <Label Text="MEET OUR SQUAD!" Font="20" TextColor="CornflowerBlue" HorizontalOptions="CenterAndExpand"/>
                     <StackLayout Orientation="Horizontal">
                         <Image Source="flavio.jpg" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-                        <Label Text="Meet Flavio Pêgas: "/>
-                        <Label Text="Role: Data Engineer at ClearSale"/>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Meet Flavio Pêgas: " TextColor="Black" />
+                            <Label Text="Role: Data Engineer at ClearSale" TextColor="Black"/>
+                        </StackLayout>
                     </StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                        <Image Source="" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-                        <Label Text="Meet Jonas Saito: "/>
-                        <Label Text="Role: Developer at ClearSale"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Image Source="jonas.jpg" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Meet Jonas Saito: " TextColor="Black"/>
+                            <Label Text="Role: Developer at ClearSale" TextColor="Black"/>
+                        </StackLayout>
                     </StackLayout>
-                    </StackLayout>
-                </Frame>
+                </StackLayout>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

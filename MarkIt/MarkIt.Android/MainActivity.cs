@@ -5,8 +5,8 @@ using Android.Runtime;
 using Android.OS;
 
 namespace MarkIt.Droid
-{
-    [Activity(Label = "MarkIt", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+{    
+    [Activity(Label = "MarkIt", Icon = "@drawable/menuIcon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

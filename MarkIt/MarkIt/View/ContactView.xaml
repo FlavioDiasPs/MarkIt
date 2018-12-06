@@ -2,12 +2,29 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MarkIt.View.ContactView">
-    
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout x:Name="layList" Orientation="Vertical" BindingContext="{Binding ContactView}">
+            <Frame BorderColor="White" BackgroundColor="WhiteSmoke" Margin="5" Padding="0, 0, 2, 2">
+                <StackLayout Orientation="Vertical" BackgroundColor="White" Margin="2" Padding="7">
+                    <Label Text="CONTACT US!" Font="20" TextColor="CornflowerBlue" HorizontalOptions="CenterAndExpand"/>
+                    <StackLayout Orientation="Vertical">
+                        <StackLayout Orientation="Vertical" >
+                            <Label Text="Email" TextColor="Black"/>
+                            <Entry Placeholder="Digite seu email" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Titulo" TextColor="Black" HorizontalOptions="StartAndExpand" />
+                            <Entry Placeholder="Digite o titulo do email" TextColor="Black" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Conteudo" TextColor="Black" HorizontalOptions="StartAndExpand"/>
+                            <Editor TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="100"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <Button Text="Enviar email" Clicked="SendEmail"/>
+                </StackLayout>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

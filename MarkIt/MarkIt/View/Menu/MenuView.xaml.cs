@@ -24,19 +24,19 @@ namespace MarkIt.View.Menu
                 new OpcoesMenu
                 {
                     Descricao = "Home",
-                    Icone = "Home.png",
+                    Icone = "menuIcon.png",
                     TargetType = typeof(MainPage)
                 },
                 new OpcoesMenu
                 {
                     Descricao = "About",
-                    Icone = "Home.png",
+                    Icone = "menuIcon.png",
                     TargetType = typeof(AboutView)
                 },
                 new OpcoesMenu
                 {
                     Descricao = "Contact",
-                    Icone = "Home.png",
+                    Icone = "menuIcon.png",
                     TargetType = typeof(ContactView)
                 }
             };
